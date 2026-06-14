@@ -18,6 +18,11 @@ const trustedOrigins = [
     : undefined,
   "http://localhost:3000",
   "http://127.0.0.1:3000",
+  // v0 preview + Vercel preview domains (wildcards are matched against the request origin)
+  "https://*.vusercontent.net",
+  "https://*.v0.dev",
+  "https://*.v0.app",
+  "https://*.vercel.app",
 ].filter(Boolean) as string[]
 
 export const auth = betterAuth({
