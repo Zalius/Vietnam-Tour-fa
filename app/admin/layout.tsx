@@ -21,7 +21,7 @@ export default async function AdminLayout({
               href="/admin"
               className="text-lg font-medium tracking-tight text-foreground"
             >
-              EVASION
+              Tour Vietnam
             </Link>
             <span className="rounded-full bg-secondary px-2 py-0.5 text-xs uppercase tracking-widest text-muted-foreground">
               CMS

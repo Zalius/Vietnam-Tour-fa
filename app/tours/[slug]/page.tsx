@@ -16,7 +16,7 @@ export async function generateMetadata({
   const tour = await getTourBySlug(slug)
   if (!tour) return { title: "Tour not found" }
   return {
-    title: `${tour.title} | EVASION Vietnam`,
+    title: `${tour.title} | Tour Vietnam`,
     description: tour.summary,
   }
 }

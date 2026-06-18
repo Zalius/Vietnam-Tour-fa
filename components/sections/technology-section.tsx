@@ -91,7 +91,7 @@ export function TechnologySection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [textProgress, setTextProgress] = useState(0);
   
-  const descriptionText = "Experience outdoor gear reimagined with cutting-edge technology. Alpine & Forest accessories combine ultra-lightweight materials, intelligent temperature control, and weather-resistant engineering to elevate every adventure. From mountain peaks to forest trails, your gear adapts to the conditions.";
+  const descriptionText = "Experience Vietnam with routes shaped by local knowledge, flexible pacing, and the right balance of iconic places and quieter moments. From mountain passes to river deltas, your journey adapts to the season, the weather, and the way you like to travel.";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -149,8 +149,36 @@ export function TechnologySection() {
 
   return (
     <section ref={sectionRef} className="relative bg-foreground">
+      <div className="bg-foreground px-6 py-16 text-white md:hidden">
+        <p className="text-xs uppercase tracking-widest text-white/60">
+          Experience
+        </p>
+        <h2 className="mt-4 text-4xl font-medium leading-tight">
+          Local routes, flexible days.
+        </h2>
+        <div className="mt-8 grid grid-cols-2 gap-3">
+          {sideImages.slice(0, 2).map((img) => (
+            <div
+              key={img.src}
+              className="relative aspect-[3/4] overflow-hidden rounded-2xl"
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
+        <p className="mt-6 text-base leading-relaxed text-white/70">
+          Your tour should feel smooth, personal, and connected to the places you
+          came to see. We keep the structure clear and the experience flexible.
+        </p>
+      </div>
+
       {/* Sticky container for scroll animation */}
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 hidden h-screen overflow-hidden md:block">
         <div className="flex h-full w-full items-center justify-center">
           {/* Bento Grid Container */}
           <div 
@@ -272,12 +300,12 @@ export function TechnologySection() {
       </div>
 
       {/* Scroll space to enable animation */}
-      <div className="h-[200vh]" />
+      <div className="hidden h-[200vh] md:block" />
 
       {/* Description Section with Background Image and Scroll Reveal */}
       <div 
         ref={textSectionRef}
-        className="relative overflow-hidden bg-background px-6 py-24 md:px-12 md:py-32 lg:px-20 lg:py-40"
+        className="relative overflow-hidden bg-background px-6 py-16 md:px-12 md:py-32 lg:px-20 lg:py-40"
       >
         {/* Background Image with Grayscale Filter */}
         

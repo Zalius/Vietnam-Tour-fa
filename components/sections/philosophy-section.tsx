@@ -56,8 +56,37 @@ export function PhilosophySection() {
 
   return (
     <section id="products" className="bg-background">
+      <div className="px-6 py-16 md:hidden">
+        <h2 className="text-4xl font-medium leading-tight text-foreground">
+          Vietnam, paced for wonder.
+        </h2>
+        <p className="mt-5 text-base leading-relaxed text-muted-foreground">
+          From quiet mountain roads to lantern-lit evenings, each journey is
+          planned around the places, timing, and details that make the trip feel
+          personal.
+        </p>
+        <div className="mt-8 grid gap-4">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+            <Image
+              src="/images/product-backpack.png"
+              alt="Mountain landscape in Vietnam"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+            <Image
+              src="/images/02cdc426-dff4-4dff-b131-1b134c3699b5.png"
+              alt="Forest travel moment in Vietnam"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Scroll-Animated Product Grid */}
-      <div ref={sectionRef} className="relative" style={{ height: "200vh" }}>
+      <div ref={sectionRef} className="relative hidden md:block" style={{ height: "200vh" }}>
         <div className="sticky top-0 h-screen flex items-center justify-center">
           <div className="relative w-full">
             {/* Title - positioned behind the blocks */}
@@ -123,14 +152,14 @@ export function PhilosophySection() {
       </div>
 
       {/* Description */}
-      <div className="px-6 py-20 md:px-12 md:py-28 lg:px-20 lg:py-36 lg:pb-14">
+      <div className="px-6 py-12 md:px-12 md:py-28 lg:px-20 lg:py-36 lg:pb-14">
         <div className="text-center">
           <p className="text-xs uppercase tracking-widest text-muted-foreground">
-            First generation
+            Our philosophy
           </p>
-          <p className="mt-8 leading-relaxed text-muted-foreground text-3xl text-center">
-            Alpine & Forest are high-tech outdoor accessories designed for modern adventurers. 
-            Lightweight, durable, and engineered for extreme conditions.
+          <p className="mt-6 text-center text-xl leading-relaxed text-muted-foreground md:mt-8 md:text-3xl">
+            We design Vietnam journeys around thoughtful pacing, trusted local
+            guides, and landscapes that deserve more than a rushed stop.
           </p>
         </div>
       </div>

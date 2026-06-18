@@ -7,7 +7,7 @@ import './globals.css'
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  title: 'EVASION | Vietnam Tours & Journeys',
+  title: 'Tour Vietnam | Vietnam Tours & Journeys',
   description: 'Small-group tours across Vietnam — Ha Long Bay cruises, Sapa treks, Hoi An escapes and Mekong Delta journeys, led by local guides.',
   generator: 'v0.app',
   icons: {

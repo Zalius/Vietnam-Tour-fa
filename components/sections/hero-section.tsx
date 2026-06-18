@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const word = "EVASION";
+const word = "Tour Vietnam";
 
 const sideImages = [
   {
@@ -138,7 +138,7 @@ export function HeroSection() {
                 className="absolute inset-0 flex items-end overflow-hidden"
                 style={{ opacity: textOpacity }}
               >
-                <h1 className="w-full text-[22vw] font-medium leading-[0.8] tracking-tighter text-white">
+                <h1 className="w-full px-4 text-[14vw] font-medium leading-[0.86] text-white md:text-[13vw]">
                   {word.split("").map((letter, index) => (
                     <span
                       key={index}
