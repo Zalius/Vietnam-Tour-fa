@@ -2,6 +2,7 @@ import Link from "next/link"
 import { Plus } from "lucide-react"
 import { getAllTours, formatPrice } from "@/lib/tours"
 import { TourRowActions } from "@/components/admin/tour-row-actions"
+import { getTourUrl } from "@/lib/site-url"
 
 export const dynamic = "force-dynamic"
 
@@ -83,6 +84,7 @@ export default async function AdminToursPage() {
                     <div className="flex justify-end">
                       <TourRowActions
                         id={tour.id}
+                        viewHref={getTourUrl(tour.slug)}
                         published={tour.published}
                       />
                     </div>

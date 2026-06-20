@@ -1,10 +1,22 @@
 "use client";
 
 const specs = [
-  { label: "Weight", value: "400g" },
-  { label: "Capacity", value: "0.5L - 2L" },
-  { label: "Setup", value: "2 min" },
-  { label: "Packed size", value: "30 x 15 cm" },
+  { 
+    label: "Adventure Span", 
+    value: "2-12 Days" 
+  },
+  { 
+    label: "Travel Circle", 
+    value: "4-16 Explorers" 
+  },
+  { 
+    label: "Intensity", 
+    value: "Leisurely to Active" 
+  },
+  { 
+    label: "Discovery Zones", 
+    value: "Northern to Southern Vietnam" 
+  },
 ];
 
 export function EditorialSection() {

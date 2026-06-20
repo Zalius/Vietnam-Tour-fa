@@ -4,34 +4,34 @@ import { FadeImage } from "@/components/fade-image";
 
 const features = [
   {
-    title: "Smart Temperature Control",
-    description: "Innovation",
-    image: "/images/d18fe616-5596-4559-90f5-a90f5397d0d8.png",
+    title: "Private routes shaped around you",
+    description: "Tailor-made planning",
+    image: "/images/Vietnam/photo-1528127269322-539801943592.jpg",
   },
   {
-    title: "Ultra-Light Carbon Frame",
-    description: "Performance",
-    image: "/images/e26fa9c3-966d-4966-94a4-954a1e511c1c.png",
+    title: "Guides who know the right timing",
+    description: "Local insight",
+    image: "/images/Vietnam/Ha_Long_Bay_1.jpg",
   },
   {
-    title: "Weather-Resistant Design",
-    description: "Durability",
-    image: "/images/car.jpg",
+    title: "Smooth transfers between regions",
+    description: "Travel logistics",
+    image: "/images/Vietnam/jb-3VK6Urf2vE8-unsplash.jpg",
   },
   {
-    title: "Integrated GPS Tracking",
-    description: "Navigation",
-    image: "/images/204cee22-9e85-49e8-9303-1d309af626b0.png",
+    title: "Food, markets, and everyday culture",
+    description: "Real Vietnam",
+    image: "/images/Vietnam/photo-1559592413-7cec4d0cae2b.jpg",
   },
   {
-    title: "Built-In LED Flashlight",
-    description: "Visibility",
-    image: "/images/led-flashlight-bottle.png",
+    title: "Nature days beyond the postcards",
+    description: "Outdoor escapes",
+    image: "/images/Vietnam/te.jpg",
   },
   {
-    title: "Self-Heating Technology",
-    description: "Comfort",
-    image: "/images/heating-campfire.png",
+    title: "Flexible support before you arrive",
+    description: "Trip care",
+    image: "/images/Vietnam/lanterns-hoi-an-danang-vietnam-travel-solo-main-image-hd-op.jpg",
   },
 ];
 
@@ -41,12 +41,13 @@ export function FeaturedProductsSection() {
       {/* Section Title */}
       <div className="px-6 py-20 text-center md:px-12 md:py-28 lg:px-20 lg:py-32 lg:pb-20">
         <h2 className="text-3xl font-medium tracking-tight text-foreground md:text-4xl lg:text-5xl">
-          Engineered for Excellence.
+          Built around the way
           <br />
-          Designed for Adventure.
+          you want to travel.
         </h2>
         <p className="mx-auto mt-6 max-w-md text-sm text-muted-foreground">
-          Technology
+          Practical planning, local detail, and enough flexibility for the best
+          parts of Vietnam to unfold naturally.
         </p>
       </div>
 

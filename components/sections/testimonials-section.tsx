@@ -8,8 +8,8 @@ export function TestimonialsSection() {
       {/* Large Text Statement */}
       <div className="px-6 py-24 md:px-12 md:py-32 lg:px-20 lg:py-40">
         <p className="mx-auto max-w-5xl text-2xl leading-relaxed text-foreground md:text-3xl lg:text-[2.5rem] lg:leading-snug">
-          Alpine & Forest accessories combine aerospace-grade materials with cutting-edge technology — 
-          designed for explorers who refuse to compromise on quality or performance in the wild.
+          From the emerald waters of Ha Long to the hidden paths of Sapa, we pair local expertise with premium comfort 
+          designed for explorers who value the soul of a destination as much as the quality of the experience.
         </p>
       </div>
 

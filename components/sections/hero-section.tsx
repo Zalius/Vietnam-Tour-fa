@@ -7,26 +7,26 @@ const word = "Tour Vietnam";
 
 const sideImages = [
   {
-    src: "https://images.unsplash.com/photo-1517824806704-9040b037703b?q=80&w=1000",
+    src: "/images/hero/left1.jpg",
     alt: "Mountain hiking adventure",
     position: "left",
     span: 1,
   },
   {
-    src: "https://images.unsplash.com/photo-1510312305653-8ed496efae75?q=80&w=1000",
-    alt: "Camping under stars",
+    src: "/images/hero/left2.jpg",
+    alt: "temple",
     position: "left",
     span: 1,
   },
   {
-    src: "https://images.unsplash.com/photo-1533873984035-25970ab07461?q=80&w=1000",
+    src: "/images/hero/right1.jpg",
     alt: "Forest exploration",
     position: "right",
     span: 1,
   },
   {
-    src: "https://images.unsplash.com/photo-1527004013197-933c4bb611b3?q=80&w=1000",
-    alt: "Lake camping view",
+    src: "/images/hero/right2.jpg",
+    alt: "Beach view",
     position: "right",
     span: 1,
   },
@@ -35,8 +35,13 @@ const sideImages = [
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
     const handleScroll = () => {
       if (!sectionRef.current) return;
       
@@ -48,10 +53,13 @@ export function HeroSection() {
       setScrollProgress(progress);
     };
 
+    window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleResize();
     handleScroll();
     
     return () => {
+      window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
@@ -63,17 +71,22 @@ export function HeroSection() {
   const imageProgress = Math.max(0, Math.min(1, (scrollProgress - 0.2) / 0.8));
   
   // Smooth interpolations
-  const centerWidth = 100 - (imageProgress * 58); // 100% to 42%
-  const centerHeight = 100 - (imageProgress * 30); // 100% to 70%
-  const sideWidth = imageProgress * 22; // 0% to 22%
+  const centerWidth = isMobile
+    ? 100 - imageProgress * 46
+    : 100 - imageProgress * 58;
+  const centerHeight = isMobile
+    ? 100 - imageProgress * 28
+    : 100 - imageProgress * 30;
+  const sideWidth = isMobile ? imageProgress * 21 : imageProgress * 22;
   const sideOpacity = imageProgress;
   const sideTranslateLeft = -100 + (imageProgress * 100); // -100% to 0%
   const sideTranslateRight = 100 - (imageProgress * 100); // 100% to 0%
-  const borderRadius = imageProgress * 24; // 0px to 24px
-  const gap = imageProgress * 16; // 0px to 16px
+  const borderRadius = imageProgress * (isMobile ? 18 : 24);
+  const gap = imageProgress * (isMobile ? 10 : 16);
   
   // Vertical offset for side columns to move them up on mobile
-  const sideTranslateY = -(imageProgress * 15); // Move up by 15% when fully expanded
+  const sideTranslateY = isMobile ? 0 : -(imageProgress * 15);
+  const sideCardHeight = `${26 + imageProgress * 5}vh`;
 
   return (
     <section ref={sectionRef} className="relative bg-background">
@@ -83,12 +96,16 @@ export function HeroSection() {
           {/* Bento Grid Container */}
           <div 
             className="relative flex h-full w-full items-stretch justify-center"
-            style={{ gap: `${gap}px`, padding: `${imageProgress * 16}px`, paddingBottom: `${60 + (imageProgress * 40)}px` }}
+            style={{
+              gap: `${gap}px`,
+              padding: `${imageProgress * (isMobile ? 10 : 16)}px`,
+              paddingBottom: `${isMobile ? 40 + imageProgress * 24 : 60 + imageProgress * 40}px`,
+            }}
           >
             
             {/* Left Column */}
             <div 
-              className="flex flex-col will-change-transform"
+              className="flex flex-col justify-center will-change-transform"
               style={{
                 width: `${sideWidth}%`,
                 gap: `${gap}px`,
@@ -101,7 +118,8 @@ export function HeroSection() {
                   key={idx} 
                   className="relative overflow-hidden will-change-transform"
                   style={{
-                    flex: img.span,
+                    flex: isMobile ? "0 0 auto" : img.span,
+                    height: isMobile ? sideCardHeight : undefined,
                     borderRadius: `${borderRadius}px`,
                   }}
                 >
@@ -158,7 +176,7 @@ export function HeroSection() {
 
             {/* Right Column */}
             <div 
-              className="flex flex-col will-change-transform"
+              className="flex flex-col justify-center will-change-transform"
               style={{
                 width: `${sideWidth}%`,
                 gap: `${gap}px`,
@@ -171,7 +189,8 @@ export function HeroSection() {
                   key={idx} 
                   className="relative overflow-hidden will-change-transform"
                   style={{
-                    flex: img.span,
+                    flex: isMobile ? "0 0 auto" : img.span,
+                    height: isMobile ? sideCardHeight : undefined,
                     borderRadius: `${borderRadius}px`,
                   }}
                 >

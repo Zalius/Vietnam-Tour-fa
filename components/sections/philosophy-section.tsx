@@ -58,26 +58,25 @@ export function PhilosophySection() {
     <section id="products" className="bg-background">
       <div className="px-6 py-16 md:hidden">
         <h2 className="text-4xl font-medium leading-tight text-foreground">
-          Vietnam, paced for wonder.
+          Vietnam, planned with room to breathe.
         </h2>
         <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-          From quiet mountain roads to lantern-lit evenings, each journey is
-          planned around the places, timing, and details that make the trip feel
-          personal.
+          We shape each route around natural timing, local knowledge, and the
+          small pauses that turn a tour into a real memory.
         </p>
         <div className="mt-8 grid gap-4">
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
-              src="/images/product-backpack.png"
-              alt="Mountain landscape in Vietnam"
+              src="/images/Vietnam/Ha_Long_Bay_2.jpg"
+              alt="Limestone karsts in Ha Long Bay"
               fill
               className="object-cover"
             />
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
-              src="/images/02cdc426-dff4-4dff-b131-1b134c3699b5.png"
-              alt="Forest travel moment in Vietnam"
+              src="/images/Vietnam/lanterns-hoi-an-danang-vietnam-travel-solo-main-image-hd-op.jpg"
+              alt="Lanterns in Hoi An"
               fill
               className="object-cover"
             />
@@ -95,7 +94,7 @@ export function PhilosophySection() {
               style={{ opacity: titleOpacity }}
             >
               <h2 className="text-[12vw] font-medium leading-[0.95] tracking-tighter text-foreground md:text-[10vw] lg:text-[8vw] text-center px-6">
-                Meet Alpine & Forest.
+                Slow down. See more.
               </h2>
             </div>
 
@@ -112,14 +111,14 @@ export function PhilosophySection() {
                 }}
               >
                 <Image
-                  src="/images/product-backpack.png"
-                  alt="V1 Expedition Backpack in alpine setting"
+                  src="/images/Vietnam/Ha_Long_Bay_2.jpg"
+                  alt="Limestone karsts in Ha Long Bay"
                   fill
                   className="object-cover"
                 />
                 <div className="absolute bottom-6 left-6">
                   <span className="backdrop-blur-md px-4 py-2 text-sm font-medium rounded-full bg-[rgba(255,255,255,0.2)] text-white">
-                    Alpine $299
+                    Ha Long Bay
                   </span>
                 </div>
               </div>
@@ -135,14 +134,14 @@ export function PhilosophySection() {
                 }}
               >
                 <Image
-                  src="/images/02cdc426-dff4-4dff-b131-1b134c3699b5.png"
-                  alt="V1 Thermal mug in forest setting"
+                  src="/images/Vietnam/lanterns-hoi-an-danang-vietnam-travel-solo-main-image-hd-op.jpg"
+                  alt="Lanterns in Hoi An"
                   fill
                   className="object-cover"
                 />
                 <div className="absolute bottom-6 left-6">
                   <span className="backdrop-blur-md px-4 py-2 text-sm font-medium rounded-full bg-[rgba(255,255,255,0.2)] text-white">
-                    Forest $199
+                    Hoi An evenings
                   </span>
                 </div>
               </div>
@@ -158,8 +157,9 @@ export function PhilosophySection() {
             Our philosophy
           </p>
           <p className="mt-6 text-center text-xl leading-relaxed text-muted-foreground md:mt-8 md:text-3xl">
-            We design Vietnam journeys around thoughtful pacing, trusted local
-            guides, and landscapes that deserve more than a rushed stop.
+            Good travel is not only about where you go. It is about when you
+            arrive, who guides you, and how much space the day leaves for the
+            unexpected.
           </p>
         </div>
       </div>

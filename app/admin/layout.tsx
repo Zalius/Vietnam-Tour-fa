@@ -29,6 +29,12 @@ export default async function AdminLayout({
           </div>
           <div className="flex items-center gap-4 text-sm">
             <Link
+              href="/admin/about"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              About
+            </Link>
+            <Link
               href="/"
               target="_blank"
               className="text-muted-foreground transition-colors hover:text-foreground"

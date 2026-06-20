@@ -6,15 +6,24 @@ import { deleteTour, togglePublished } from "@/app/actions/tours"
 
 export function TourRowActions({
   id,
+  viewHref,
   published,
 }: {
   id: number
+  viewHref: string
   published: boolean
 }) {
   const [isPending, startTransition] = useTransition()
 
   return (
     <div className="flex items-center gap-3 text-sm">
+      <Link
+        href={viewHref}
+        target="_blank"
+        className="text-muted-foreground transition-colors hover:text-foreground"
+      >
+        View
+      </Link>
       <Link
         href={`/admin/${id}`}
         className="text-muted-foreground transition-colors hover:text-foreground"

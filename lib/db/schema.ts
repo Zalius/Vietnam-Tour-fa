@@ -66,6 +66,11 @@ export type ItineraryDay = {
   description: string
 }
 
+export type AboutValue = {
+  title: string
+  body: string
+}
+
 export const tours = pgTable("tours", {
   id: serial("id").primaryKey(),
   slug: text("slug").notNull().unique(),
@@ -90,5 +95,37 @@ export const tours = pgTable("tours", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 })
 
+export const aboutPage = pgTable("about_page", {
+  id: serial("id").primaryKey(),
+  slug: text("slug").default("main").notNull().unique(),
+  heroEyebrow: text("hero_eyebrow").default("About Us").notNull(),
+  heroTitle: text("hero_title")
+    .default("Thoughtful journeys, made by people who know Vietnam.")
+    .notNull(),
+  heroImage: text("hero_image")
+    .default("/images/Vietnam/Ha_Long_Bay_2.jpg")
+    .notNull(),
+  introEyebrow: text("intro_eyebrow").default("Tour Vietnam").notNull(),
+  introTitle: text("intro_title")
+    .default(
+      "We build tours around real places, real timing, and real local care.",
+    )
+    .notNull(),
+  introBody: jsonb("intro_body").$type<string[]>().default([]).notNull(),
+  values: jsonb("values").$type<AboutValue[]>().default([]).notNull(),
+  featureEyebrow: text("feature_eyebrow").default("How we work").notNull(),
+  featureTitle: text("feature_title")
+    .default("Clear plans, local guides, room for the unexpected.")
+    .notNull(),
+  featureBody: text("feature_body").default("").notNull(),
+  featureImage: text("feature_image")
+    .default(
+      "/images/Vietnam/lanterns-hoi-an-danang-vietnam-travel-solo-main-image-hd-op.jpg",
+    )
+    .notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+})
+
 export type Tour = typeof tours.$inferSelect
 export type NewTour = typeof tours.$inferInsert
+export type AboutPage = typeof aboutPage.$inferSelect
