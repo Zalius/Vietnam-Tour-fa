@@ -14,7 +14,7 @@ export default async function SignUpPage() {
         href="/"
         className="mb-10 text-lg font-medium tracking-tight text-foreground"
       >
-        Tour Vietnam
+        تور ویتنام
       </Link>
       <AuthForm mode="sign-up" />
     </main>

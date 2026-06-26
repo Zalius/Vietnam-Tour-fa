@@ -5,9 +5,9 @@ import { FooterSection } from "@/components/sections/footer-section"
 import { getAboutPage } from "@/lib/about"
 
 export const metadata: Metadata = {
-  title: "About Us | Tour Vietnam",
+  title: "درباره ما | تور ویتنام",
   description:
-    "Meet Tour Vietnam, a local team creating thoughtful private and small-group journeys across Vietnam.",
+    "با تور ویتنام آشنا شوید؛ تیمی برای طراحی سفرهای اختصاصی و گروهی کوچک در سراسر ویتنام.",
 }
 
 export const dynamic = "force-dynamic"
@@ -22,7 +22,7 @@ export default async function AboutPage() {
       <section className="relative flex min-h-[78vh] items-end overflow-hidden">
         <Image
           src={page.heroImage}
-          alt="Boats among limestone karsts in Vietnam"
+          alt="قایق‌ها میان صخره‌های آهکی ویتنام"
           fill
           priority
           className="object-cover"
@@ -75,7 +75,7 @@ export default async function AboutPage() {
         <div className="relative min-h-[360px] lg:min-h-[560px]">
           <Image
             src={page.featureImage}
-            alt="Lanterns in Hoi An, Vietnam"
+            alt="فانوس‌های هوی آن در ویتنام"
             fill
             className="object-cover"
           />

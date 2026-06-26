@@ -18,7 +18,7 @@ export function SignOutButton() {
       onClick={handleSignOut}
       className="rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-secondary"
     >
-      Sign out
+      خروج
     </button>
   )
 }

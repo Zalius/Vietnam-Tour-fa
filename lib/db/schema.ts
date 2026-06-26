@@ -8,7 +8,6 @@ import {
   jsonb,
 } from "drizzle-orm/pg-core"
 
-// ----- Better Auth tables (do not rename columns) -----
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
@@ -59,7 +58,6 @@ export const verification = pgTable("verification", {
   updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 })
 
-// ----- App tables -----
 export type ItineraryDay = {
   day: number
   title: string
@@ -83,7 +81,7 @@ export const tours = pgTable("tours", {
   startLocation: text("start_location").default("").notNull(),
   endLocation: text("end_location").default("").notNull(),
   maxGroupSize: integer("max_group_size").default(12).notNull(),
-  difficulty: text("difficulty").default("Moderate").notNull(),
+  difficulty: text("difficulty").default("متوسط").notNull(),
   mainImage: text("main_image").default("").notNull(),
   gallery: jsonb("gallery").$type<string[]>().default([]).notNull(),
   highlights: jsonb("highlights").$type<string[]>().default([]).notNull(),
@@ -98,24 +96,24 @@ export const tours = pgTable("tours", {
 export const aboutPage = pgTable("about_page", {
   id: serial("id").primaryKey(),
   slug: text("slug").default("main").notNull().unique(),
-  heroEyebrow: text("hero_eyebrow").default("About Us").notNull(),
+  heroEyebrow: text("hero_eyebrow").default("درباره ما").notNull(),
   heroTitle: text("hero_title")
-    .default("Thoughtful journeys, made by people who know Vietnam.")
+    .default("سفرهایی فکرشده، ساخته‌شده توسط کسانی که ویتنام را می‌شناسند.")
     .notNull(),
   heroImage: text("hero_image")
     .default("/images/Vietnam/Ha_Long_Bay_2.jpg")
     .notNull(),
-  introEyebrow: text("intro_eyebrow").default("Tour Vietnam").notNull(),
+  introEyebrow: text("intro_eyebrow").default("تور ویتنام").notNull(),
   introTitle: text("intro_title")
     .default(
-      "We build tours around real places, real timing, and real local care.",
+      "ما تورها را بر اساس مکان‌های واقعی، زمان‌بندی درست و مراقبت محلی می‌سازیم.",
     )
     .notNull(),
   introBody: jsonb("intro_body").$type<string[]>().default([]).notNull(),
   values: jsonb("values").$type<AboutValue[]>().default([]).notNull(),
-  featureEyebrow: text("feature_eyebrow").default("How we work").notNull(),
+  featureEyebrow: text("feature_eyebrow").default("شیوه کار ما").notNull(),
   featureTitle: text("feature_title")
-    .default("Clear plans, local guides, room for the unexpected.")
+    .default("برنامه‌های روشن، راهنماهای محلی و فضای کافی برای اتفاق‌های خوب.")
     .notNull(),
   featureBody: text("feature_body").default("").notNull(),
   featureImage: text("feature_image")

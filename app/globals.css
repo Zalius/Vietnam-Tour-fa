@@ -75,7 +75,7 @@
 }
 
 @theme inline {
-  --font-sans: 'Inter', 'Inter Fallback', system-ui, sans-serif;
+  --font-sans: var(--font-vazirmatn), Tahoma, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
   --font-display: 'PP Editorial New', 'Times New Roman', serif;
   --color-background: var(--background);

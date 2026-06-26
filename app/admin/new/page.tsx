@@ -11,10 +11,10 @@ export default function NewTourPage() {
         className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft size={16} />
-        Back to tours
+        بازگشت به تورها
       </Link>
       <h1 className="mt-4 mb-8 text-2xl font-medium tracking-tight text-foreground">
-        New tour
+        تور جدید
       </h1>
       <TourForm action={createTour} />
     </div>

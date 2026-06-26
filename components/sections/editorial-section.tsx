@@ -2,20 +2,20 @@
 
 const specs = [
   { 
-    label: "Adventure Span", 
-    value: "2-12 Days" 
+    label: "مدت سفر", 
+    value: "۲ تا ۱۲ روز" 
   },
   { 
-    label: "Travel Circle", 
-    value: "4-16 Explorers" 
+    label: "اندازه گروه", 
+    value: "۴ تا ۱۶ نفر" 
   },
   { 
-    label: "Intensity", 
-    value: "Leisurely to Active" 
+    label: "ریتم سفر", 
+    value: "آرام تا فعال" 
   },
   { 
-    label: "Discovery Zones", 
-    value: "Northern to Southern Vietnam" 
+    label: "محدوده سفر", 
+    value: "شرق تا غرب ویتنام" 
   },
 ];
 
@@ -36,7 +36,7 @@ export function EditorialSection() {
         {specs.map((spec) => (
           <div
             key={spec.label}
-            className="border-b border-r border-border p-8 text-center last:border-r-0 md:border-b-0"
+            className="border-b border-l border-border p-8 text-center last:border-l-0 md:border-b-0"
           >
             <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">
               {spec.label}

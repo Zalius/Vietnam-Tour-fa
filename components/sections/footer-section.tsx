@@ -1,47 +1,45 @@
-"use client";
+"use client"
 
-import Link from "next/link";
+import Link from "next/link"
 
 const footerLinks = {
   explore: [
-    { label: "All Tours", href: "/#tours" },
-    { label: "Experience", href: "/#technology" },
-    { label: "Gallery", href: "/#gallery" },
-    { label: "About Us", href: "/about" },
+    { label: "همه تورها", href: "/#tours" },
+    { label: "تجربه سفر", href: "/#technology" },
+    { label: "گالری", href: "/#gallery" },
+    { label: "درباره ما", href: "/about" },
   ],
   about: [
-    { label: "Our Story", href: "/about" },
-    { label: "Local Guides", href: "/about" },
-    { label: "Responsible Travel", href: "/about" },
-    { label: "Contact", href: "#" },
+    { label: "داستان ما", href: "/about" },
+    { label: "راهنماهای محلی", href: "/about" },
+    { label: "سفر مسئولانه", href: "/about" },
+    { label: "تماس", href: "#" },
   ],
   service: [
-    { label: "FAQ", href: "#" },
-    { label: "Booking Terms", href: "#" },
-    { label: "Cancellations", href: "#" },
-    { label: "Travel Insurance", href: "#" },
+    { label: "پرسش‌های رایج", href: "#" },
+    { label: "شرایط رزرو", href: "#" },
+    { label: "لغو سفر", href: "#" },
+    { label: "بیمه سفر", href: "#" },
   ],
-};
+}
 
 export function FooterSection() {
   return (
     <footer className="bg-background">
-      {/* Main Footer Content */}
       <div className="border-t border-border px-6 py-16 md:px-12 md:py-20 lg:px-20">
         <div className="grid grid-cols-2 gap-12 md:grid-cols-4 lg:grid-cols-5">
-          {/* Brand */}
           <div className="col-span-2 md:col-span-1 lg:col-span-2">
             <Link href="/" className="text-lg font-medium text-foreground">
-              Tour Vietnam
+              تور ویتنام
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Small-group journeys across Vietnam — from the karsts of Ha Long Bay to the rice terraces of Sapa, led by local guides.
+              سفرهای کوچک و اختصاصی در ویتنام؛ از صخره‌های آهکی خلیج ها لونگ
+              تا شالیزارهای ساپا، همراه با راهنماهای محلی.
             </p>
           </div>
 
-          {/* Explore */}
           <div>
-            <h4 className="mb-4 text-sm font-medium text-foreground">Explore</h4>
+            <h4 className="mb-4 text-sm font-medium text-foreground">گشت‌وگذار</h4>
             <ul className="space-y-3">
               {footerLinks.explore.map((link) => (
                 <li key={link.label}>
@@ -56,9 +54,8 @@ export function FooterSection() {
             </ul>
           </div>
 
-          {/* About */}
           <div>
-            <h4 className="mb-4 text-sm font-medium text-foreground">About</h4>
+            <h4 className="mb-4 text-sm font-medium text-foreground">درباره</h4>
             <ul className="space-y-3">
               {footerLinks.about.map((link) => (
                 <li key={link.label}>
@@ -73,9 +70,8 @@ export function FooterSection() {
             </ul>
           </div>
 
-          {/* Service */}
           <div>
-            <h4 className="mb-4 text-sm font-medium text-foreground">Service</h4>
+            <h4 className="mb-4 text-sm font-medium text-foreground">خدمات</h4>
             <ul className="space-y-3">
               {footerLinks.service.map((link) => (
                 <li key={link.label}>
@@ -92,16 +88,12 @@ export function FooterSection() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
       <div className="border-t border-border px-6 py-6 md:px-12 lg:px-20">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <p className="text-xs text-muted-foreground">
-            2026 Tour Vietnam. All rights reserved.
+            ۲۰۲۶ تور ویتنام. همه حقوق محفوظ است.
           </p>
 
-          
-
-          {/* Social Links */}
           <div className="flex items-center gap-4">
             <Link
               href="#"
@@ -125,5 +117,5 @@ export function FooterSection() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

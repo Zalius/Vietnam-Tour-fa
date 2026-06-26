@@ -14,10 +14,10 @@ export default async function AdminToursPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-medium tracking-tight text-foreground">
-            Tours
+            تورها
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {tours.length} {tours.length === 1 ? "tour" : "tours"} total
+            مجموع {tours.length} تور
           </p>
         </div>
         <Link
@@ -25,30 +25,30 @@ export default async function AdminToursPage() {
           className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80"
         >
           <Plus size={16} />
-          New tour
+          تور جدید
         </Link>
       </div>
 
       {tours.length === 0 ? (
         <div className="mt-10 rounded-2xl border border-dashed border-border p-12 text-center">
           <p className="text-muted-foreground">
-            No tours yet. Create your first one.
+            هنوز توری ثبت نشده است. اولین تور را بسازید.
           </p>
         </div>
       ) : (
         <div className="mt-8 overflow-hidden rounded-2xl border border-border">
-          <table className="w-full text-left text-sm">
+          <table className="w-full text-right text-sm">
             <thead className="border-b border-border bg-secondary/50">
               <tr className="text-xs uppercase tracking-widest text-muted-foreground">
-                <th className="px-5 py-3 font-medium">Tour</th>
+                <th className="px-5 py-3 font-medium">تور</th>
                 <th className="hidden px-5 py-3 font-medium md:table-cell">
-                  Region
+                  منطقه
                 </th>
                 <th className="hidden px-5 py-3 font-medium sm:table-cell">
-                  Price
+                  قیمت
                 </th>
-                <th className="px-5 py-3 font-medium">Status</th>
-                <th className="px-5 py-3 font-medium text-right">Actions</th>
+                <th className="px-5 py-3 font-medium">وضعیت</th>
+                <th className="px-5 py-3 font-medium text-left">عملیات</th>
               </tr>
             </thead>
             <tbody>
@@ -59,8 +59,8 @@ export default async function AdminToursPage() {
                       {tour.title}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      /{tour.slug} &middot; {tour.durationDays} days
-                      {tour.featured ? " · Featured" : ""}
+                      /{tour.slug} &middot; {tour.durationDays} روز
+                      {tour.featured ? " · ویژه" : ""}
                     </div>
                   </td>
                   <td className="hidden px-5 py-4 text-muted-foreground md:table-cell">
@@ -77,7 +77,7 @@ export default async function AdminToursPage() {
                           : "bg-secondary text-muted-foreground"
                       }`}
                     >
-                      {tour.published ? "Published" : "Draft"}
+                      {tour.published ? "منتشر شده" : "پیش‌نویس"}
                     </span>
                   </td>
                   <td className="px-5 py-4">

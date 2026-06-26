@@ -22,13 +22,13 @@ export function TourRowActions({
         target="_blank"
         className="text-muted-foreground transition-colors hover:text-foreground"
       >
-        View
+        مشاهده
       </Link>
       <Link
         href={`/admin/${id}`}
         className="text-muted-foreground transition-colors hover:text-foreground"
       >
-        Edit
+        ویرایش
       </Link>
       <button
         type="button"
@@ -40,15 +40,13 @@ export function TourRowActions({
         }
         className="text-muted-foreground transition-colors hover:text-foreground disabled:opacity-50"
       >
-        {published ? "Unpublish" : "Publish"}
+        {published ? "لغو انتشار" : "انتشار"}
       </button>
       <button
         type="button"
         disabled={isPending}
         onClick={() => {
-          if (
-            confirm("Delete this tour? This action cannot be undone.")
-          ) {
+          if (confirm("این تور حذف شود؟ این کار قابل بازگشت نیست.")) {
             startTransition(() => {
               deleteTour(id)
             })
@@ -56,7 +54,7 @@ export function TourRowActions({
         }}
         className="text-destructive transition-opacity hover:opacity-80 disabled:opacity-50"
       >
-        Delete
+        حذف
       </button>
     </div>
   )

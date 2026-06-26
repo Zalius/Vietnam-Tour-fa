@@ -11,7 +11,7 @@ import { deleteMinioImage, uploadImageToMinio } from "@/lib/minio"
 
 async function requireAuth() {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) throw new Error("Unauthorized")
+  if (!session?.user) throw new Error("دسترسی غیرمجاز")
   return session.user
 }
 
@@ -19,7 +19,7 @@ function slugify(value: string): string {
   return value
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
     .replace(/^-+|-+$/g, "")
 }
 
@@ -39,7 +39,6 @@ function parseUploadedFiles(value: FormDataEntryValue[]): File[] {
 
 function parseItinerary(value: FormDataEntryValue | null): ItineraryDay[] {
   if (!value) return []
-  // Each line: "Title :: Description"
   return String(value)
     .split("\n")
     .map((line) => line.trim())
@@ -87,7 +86,7 @@ async function buildTourData(formData: FormData) {
     endLocation: String(formData.get("endLocation") ?? "").trim(),
     maxGroupSize:
       Number.parseInt(String(formData.get("maxGroupSize") ?? "12"), 10) || 12,
-    difficulty: String(formData.get("difficulty") ?? "Moderate").trim(),
+    difficulty: String(formData.get("difficulty") ?? "متوسط").trim(),
     mainImage: mainImageUpload || String(formData.get("mainImage") ?? "").trim(),
     gallery: [...parseList(formData.get("gallery")), ...galleryUploads],
     highlights: parseList(formData.get("highlights")),
@@ -115,7 +114,7 @@ async function deleteRemovedMinioImages(
 export async function createTour(formData: FormData) {
   await requireAuth()
   const data = await buildTourData(formData)
-  if (!data.title || !data.slug) throw new Error("Title is required")
+  if (!data.title || !data.slug) throw new Error("عنوان تور الزامی است")
   await db.insert(tours).values(data)
   revalidatePath("/admin")
   revalidatePath("/")
@@ -128,7 +127,7 @@ export async function updateTour(id: number, formData: FormData) {
     where: eq(tours.id, id),
   })
   const data = await buildTourData(formData)
-  if (!data.title || !data.slug) throw new Error("Title is required")
+  if (!data.title || !data.slug) throw new Error("عنوان تور الزامی است")
   await db.update(tours).set(data).where(eq(tours.id, id))
   if (previousTour) {
     await deleteRemovedMinioImages(

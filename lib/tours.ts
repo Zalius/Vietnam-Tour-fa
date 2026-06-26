@@ -11,7 +11,6 @@ function withDisplayImageUrls(tour: Tour): Tour {
   }
 }
 
-// Public reads (only published tours)
 export async function getPublishedTours(): Promise<Tour[]> {
   const rows = await db
     .select()
@@ -33,7 +32,6 @@ export async function getTourBySlug(slug: string): Promise<Tour | null> {
   return rows[0] ? withDisplayImageUrls(rows[0]) : null
 }
 
-// Admin reads (all tours, including unpublished)
 export async function getAllTours(): Promise<Tour[]> {
   const rows = await db.select().from(tours).orderBy(desc(tours.createdAt))
   return rows.map(withDisplayImageUrls)
@@ -45,9 +43,18 @@ export async function getTourById(id: number): Promise<Tour | null> {
 }
 
 export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
+  return new Intl.NumberFormat("fa-IR", {
     maximumFractionDigits: 0,
-  }).format(price)
+  }).format(price) + " دلار"
+}
+
+export function formatDifficulty(difficulty: string): string {
+  const labels: Record<string, string> = {
+    Easy: "آسان",
+    Moderate: "متوسط",
+    Challenging: "چالش‌برانگیز",
+    Strenuous: "سخت",
+  }
+
+  return labels[difficulty] ?? difficulty
 }

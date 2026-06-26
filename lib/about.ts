@@ -4,39 +4,39 @@ import { getMinioImageUrl } from "@/lib/minio"
 import { eq } from "drizzle-orm"
 
 const defaultIntroBody = [
-  "Tour Vietnam creates private and small-group journeys across the country, from Ha Long Bay and Ninh Binh to Sapa, Hoi An, Hue, Da Nang, Ho Chi Minh City, and the Mekong Delta.",
-  "Our work is simple: understand what kind of trip you want, match it with the right route and guides, and keep the details clear before you arrive. The result should feel smooth, personal, and grounded in the places you came to see.",
+  "تور ویتنام سفرهای اختصاصی و گروهی کوچک را در سراسر کشور طراحی می‌کند؛ از خلیج ها لونگ و نین بین تا ساپا، هوی آن، هوئه، دا نانگ، شهر هوشی‌مین و دلتای مکونگ.",
+  "کار ما ساده است: بفهمیم چه نوع سفری می‌خواهید، مسیر و راهنمای مناسب را برایتان انتخاب کنیم و جزئیات را پیش از رسیدن شما روشن و دقیق نگه داریم. نتیجه باید روان، شخصی و ریشه‌دار در همان جاهایی باشد که برای دیدنشان آمده‌اید.",
 ]
 
 const defaultValues: AboutValue[] = [
   {
-    title: "Local knowledge",
-    body: "Routes are shaped with guides who know the rhythm of each region, from early market hours to quiet viewpoints after the crowds leave.",
+    title: "شناخت محلی",
+    body: "مسیرها با کمک راهنماهایی شکل می‌گیرند که ریتم هر منطقه را می‌شناسند؛ از ساعت‌های خلوت بازارها تا چشم‌اندازهای آرام پس از رفتن جمعیت.",
   },
   {
-    title: "Flexible journeys",
-    body: "Each tour can be adjusted around your pace, interests, travel dates, and the kind of Vietnam you want to experience.",
+    title: "سفرهای منعطف",
+    body: "هر تور می‌تواند با سرعت حرکت، علایق، تاریخ سفر و نوع تجربه‌ای که از ویتنام می‌خواهید هماهنگ شود.",
   },
   {
-    title: "Responsible travel",
-    body: "We work with local partners, family-run stays, and community-led experiences wherever they genuinely improve the journey.",
+    title: "سفر مسئولانه",
+    body: "هرجا که کیفیت سفر را واقعی‌تر کند، با همکاران محلی، اقامتگاه‌های خانوادگی و تجربه‌های جامعه‌محور کار می‌کنیم.",
   },
 ]
 
 const defaultAboutPage: AboutPage = {
   id: 0,
   slug: "main",
-  heroEyebrow: "About Us",
-  heroTitle: "Thoughtful journeys, made by people who know Vietnam.",
+  heroEyebrow: "درباره ما",
+  heroTitle: "سفرهایی فکرشده، ساخته‌شده توسط کسانی که ویتنام را می‌شناسند.",
   heroImage: "/images/Vietnam/Ha_Long_Bay_2.jpg",
-  introEyebrow: "Tour Vietnam",
-  introTitle: "We build tours around real places, real timing, and real local care.",
+  introEyebrow: "تور ویتنام",
+  introTitle: "ما تورها را بر اساس مکان‌های واقعی، زمان‌بندی درست و مراقبت محلی می‌سازیم.",
   introBody: defaultIntroBody,
   values: defaultValues,
-  featureEyebrow: "How we work",
-  featureTitle: "Clear plans, local guides, room for the unexpected.",
+  featureEyebrow: "شیوه کار ما",
+  featureTitle: "برنامه‌های روشن، راهنماهای محلی و فضای کافی برای اتفاق‌های خوب.",
   featureBody:
-    "We plan the essentials carefully, then leave enough space for the moments that make Vietnam memorable: a slower lunch, a market stop, a better sunset, or a route change when the weather asks for it.",
+    "ما بخش‌های ضروری سفر را دقیق برنامه‌ریزی می‌کنیم و در عین حال برای لحظه‌هایی که ویتنام را ماندگار می‌کنند جا می‌گذاریم: ناهاری آرام‌تر، توقفی در بازار، غروبی بهتر یا تغییر مسیر وقتی هوا چنین می‌خواهد.",
   featureImage:
     "/images/Vietnam/lanterns-hoi-an-danang-vietnam-travel-solo-main-image-hd-op.jpg",
   updatedAt: new Date(),

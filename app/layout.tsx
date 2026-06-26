@@ -1,31 +1,35 @@
 import React from "react"
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
+import type { Metadata } from "next"
+import { Vazirmatn } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
+import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
+const vazirmatn = Vazirmatn({
+  subsets: ["arabic", "latin"],
+  variable: "--font-vazirmatn",
+})
 
 export const metadata: Metadata = {
-  title: 'Tour Vietnam | Vietnam Tours & Journeys',
-  description: 'Small-group tours across Vietnam — Ha Long Bay cruises, Sapa treks, Hoi An escapes and Mekong Delta journeys, led by local guides.',
-  generator: 'v0.app',
+  title: "تور ویتنام | سفرهای اختصاصی و گروهی ویتنام",
+  description:
+    "تورهای کوچک و اختصاصی در ویتنام؛ از کروز خلیج ها لونگ تا ساپا، هوی آن و دلتای مکونگ همراه با راهنماهای محلی.",
+  generator: "v0.app",
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
+        url: "/icon-light-32x32.png",
+        media: "(prefers-color-scheme: light)",
       },
       {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
+        url: "/icon-dark-32x32.png",
+        media: "(prefers-color-scheme: dark)",
       },
       {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: "/icon.svg",
+        type: "image/svg+xml",
       },
     ],
-    apple: '/apple-icon.png',
+    apple: "/apple-icon.png",
   },
 }
 
@@ -35,8 +39,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+    <html lang="fa" dir="rtl">
+      <body className={`${vazirmatn.variable} font-sans antialiased`}>
         {children}
         <Analytics />
       </body>

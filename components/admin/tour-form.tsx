@@ -13,7 +13,7 @@ function SubmitButton({ label }: { label: string }) {
       disabled={pending}
       className="rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:opacity-50"
     >
-      {pending ? "Saving…" : label}
+      {pending ? "در حال ذخیره..." : label}
     </button>
   )
 }
@@ -34,7 +34,7 @@ function FileInput({
       type="file"
       accept="image/*"
       multiple={multiple}
-      className="text-sm text-muted-foreground file:mr-4 file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-medium file:text-secondary-foreground hover:file:bg-secondary/80"
+      className="text-sm text-muted-foreground file:ml-4 file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-medium file:text-secondary-foreground hover:file:bg-secondary/80"
     />
   )
 }
@@ -58,11 +58,10 @@ export function TourForm({
 
   return (
     <form action={action} className="flex flex-col gap-8">
-      {/* Basics */}
       <fieldset className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="flex flex-col gap-2 md:col-span-2">
           <label htmlFor="title" className={labelClass}>
-            Tour title
+            عنوان تور
           </label>
           <input
             id="title"
@@ -71,15 +70,15 @@ export function TourForm({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className={inputClass}
-            placeholder="Ha Long Bay Overnight Cruise"
+            placeholder="کروز شبانه خلیج ها لونگ"
           />
         </div>
 
         <div className="flex flex-col gap-2 md:col-span-2">
           <label htmlFor="slug" className={labelClass}>
-            URL slug{" "}
+            آدرس URL{" "}
             <span className="font-normal text-muted-foreground">
-              (optional — auto-generated from title)
+              (اختیاری، از عنوان ساخته می‌شود)
             </span>
           </label>
           <input
@@ -88,12 +87,13 @@ export function TourForm({
             defaultValue={tour?.slug ?? ""}
             className={inputClass}
             placeholder="ha-long-bay-cruise"
+            dir="ltr"
           />
         </div>
 
         <div className="flex flex-col gap-2">
           <label htmlFor="region" className={labelClass}>
-            Region
+            منطقه
           </label>
           <input
             id="region"
@@ -101,30 +101,30 @@ export function TourForm({
             required
             defaultValue={tour?.region ?? ""}
             className={inputClass}
-            placeholder="Northern Vietnam"
+            placeholder="شمال ویتنام"
           />
         </div>
 
         <div className="flex flex-col gap-2">
           <label htmlFor="difficulty" className={labelClass}>
-            Difficulty
+            سطح سفر
           </label>
           <select
             id="difficulty"
             name="difficulty"
-            defaultValue={tour?.difficulty ?? "Moderate"}
+            defaultValue={tour?.difficulty ?? "متوسط"}
             className={inputClass}
           >
-            <option>Easy</option>
-            <option>Moderate</option>
-            <option>Challenging</option>
-            <option>Strenuous</option>
+            <option>آسان</option>
+            <option>متوسط</option>
+            <option>چالش‌برانگیز</option>
+            <option>سخت</option>
           </select>
         </div>
 
         <div className="flex flex-col gap-2">
           <label htmlFor="price" className={labelClass}>
-            Price (USD per person)
+            قیمت (دلار برای هر نفر)
           </label>
           <input
             id="price"
@@ -138,7 +138,7 @@ export function TourForm({
 
         <div className="flex flex-col gap-2">
           <label htmlFor="durationDays" className={labelClass}>
-            Duration (days)
+            مدت سفر (روز)
           </label>
           <input
             id="durationDays"
@@ -152,33 +152,33 @@ export function TourForm({
 
         <div className="flex flex-col gap-2">
           <label htmlFor="startLocation" className={labelClass}>
-            Start location
+            محل شروع
           </label>
           <input
             id="startLocation"
             name="startLocation"
             defaultValue={tour?.startLocation ?? ""}
             className={inputClass}
-            placeholder="Hanoi"
+            placeholder="هانوی"
           />
         </div>
 
         <div className="flex flex-col gap-2">
           <label htmlFor="endLocation" className={labelClass}>
-            End location
+            محل پایان
           </label>
           <input
             id="endLocation"
             name="endLocation"
             defaultValue={tour?.endLocation ?? ""}
             className={inputClass}
-            placeholder="Hanoi"
+            placeholder="هانوی"
           />
         </div>
 
         <div className="flex flex-col gap-2">
           <label htmlFor="maxGroupSize" className={labelClass}>
-            Max group size
+            حداکثر اندازه گروه
           </label>
           <input
             id="maxGroupSize"
@@ -191,10 +191,9 @@ export function TourForm({
         </div>
       </fieldset>
 
-      {/* Text content */}
       <div className="flex flex-col gap-2">
         <label htmlFor="summary" className={labelClass}>
-          Short summary
+          خلاصه کوتاه
         </label>
         <textarea
           id="summary"
@@ -202,13 +201,13 @@ export function TourForm({
           rows={2}
           defaultValue={tour?.summary ?? ""}
           className={inputClass}
-          placeholder="One-line teaser shown on cards."
+          placeholder="متن کوتاهی که روی کارت تور نمایش داده می‌شود."
         />
       </div>
 
       <div className="flex flex-col gap-2">
         <label htmlFor="description" className={labelClass}>
-          Full description
+          توضیحات کامل
         </label>
         <textarea
           id="description"
@@ -219,39 +218,39 @@ export function TourForm({
         />
       </div>
 
-      {/* Images */}
       <div className="flex flex-col gap-2">
         <label htmlFor="mainImageFile" className={labelClass}>
-          Main image upload
+          آپلود تصویر اصلی
         </label>
         <FileInput id="mainImageFile" name="mainImageFile" />
       </div>
 
       <div className="flex flex-col gap-2">
         <label htmlFor="mainImage" className={labelClass}>
-          Main image path or URL
+          مسیر یا URL تصویر اصلی
         </label>
         <input
           id="mainImage"
           name="mainImage"
           defaultValue={tour?.mainImage ?? ""}
           className={inputClass}
-          placeholder="/images/bottle-lake.png or https://…"
+          placeholder="/images/example.jpg یا https://..."
+          dir="ltr"
         />
       </div>
 
       <div className="flex flex-col gap-2">
         <label htmlFor="galleryFiles" className={labelClass}>
-          Add gallery images
+          افزودن تصاویر گالری
         </label>
         <FileInput id="galleryFiles" name="galleryFiles" multiple />
       </div>
 
       <div className="flex flex-col gap-2">
         <label htmlFor="gallery" className={labelClass}>
-          Gallery images{" "}
+          تصاویر گالری{" "}
           <span className="font-normal text-muted-foreground">
-            (one path/URL per line)
+            (هر مسیر یا URL در یک خط)
           </span>
         </label>
         <textarea
@@ -260,15 +259,15 @@ export function TourForm({
           rows={3}
           defaultValue={(tour?.gallery ?? []).join("\n")}
           className={inputClass}
+          dir="ltr"
         />
       </div>
 
-      {/* Lists */}
       <div className="flex flex-col gap-2">
         <label htmlFor="highlights" className={labelClass}>
-          Highlights{" "}
+          نکات برجسته{" "}
           <span className="font-normal text-muted-foreground">
-            (one per line)
+            (هر مورد در یک خط)
           </span>
         </label>
         <textarea
@@ -282,9 +281,9 @@ export function TourForm({
 
       <div className="flex flex-col gap-2">
         <label htmlFor="included" className={labelClass}>
-          What&apos;s included{" "}
+          موارد شامل تور{" "}
           <span className="font-normal text-muted-foreground">
-            (one per line)
+            (هر مورد در یک خط)
           </span>
         </label>
         <textarea
@@ -298,9 +297,9 @@ export function TourForm({
 
       <div className="flex flex-col gap-2">
         <label htmlFor="itinerary" className={labelClass}>
-          Itinerary{" "}
+          برنامه سفر{" "}
           <span className="font-normal text-muted-foreground">
-            (one day per line, format: Title :: Description)
+            (هر روز در یک خط، قالب: عنوان :: توضیح)
           </span>
         </label>
         <textarea
@@ -309,11 +308,10 @@ export function TourForm({
           rows={5}
           defaultValue={itineraryText}
           className={inputClass}
-          placeholder={"Arrival & cruise :: Transfer to the harbor and board the junk.\nSunrise & return :: Tai chi on deck, then transfer back."}
+          placeholder={"ورود و حرکت با کشتی :: انتقال به بندر و سوار شدن به کشتی.\nطلوع و بازگشت :: تای‌چی روی عرشه و سپس بازگشت."}
         />
       </div>
 
-      {/* Flags */}
       <div className="flex flex-wrap gap-6">
         <label className="flex items-center gap-2 text-sm text-foreground">
           <input
@@ -322,7 +320,7 @@ export function TourForm({
             defaultChecked={tour?.featured ?? false}
             className="h-4 w-4 accent-foreground"
           />
-          Featured tour
+          تور ویژه
         </label>
         <label className="flex items-center gap-2 text-sm text-foreground">
           <input
@@ -331,17 +329,17 @@ export function TourForm({
             defaultChecked={tour?.published ?? true}
             className="h-4 w-4 accent-foreground"
           />
-          Published (visible on site)
+          منتشر شده (قابل مشاهده در سایت)
         </label>
       </div>
 
       <div className="flex items-center gap-4 border-t border-border pt-6">
-        <SubmitButton label={tour ? "Save changes" : "Create tour"} />
+        <SubmitButton label={tour ? "ذخیره تغییرات" : "ساخت تور"} />
         <Link
           href="/admin"
           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          Cancel
+          انصراف
         </Link>
       </div>
     </form>

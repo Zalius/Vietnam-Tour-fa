@@ -21,7 +21,7 @@ export default async function AdminLayout({
               href="/admin"
               className="text-lg font-medium tracking-tight text-foreground"
             >
-              Tour Vietnam
+              تور ویتنام
             </Link>
             <span className="rounded-full bg-secondary px-2 py-0.5 text-xs uppercase tracking-widest text-muted-foreground">
               CMS
@@ -32,14 +32,14 @@ export default async function AdminLayout({
               href="/admin/about"
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
-              About
+              درباره
             </Link>
             <Link
               href="/"
               target="_blank"
               className="text-muted-foreground transition-colors hover:text-foreground"
             >
-              View site
+              مشاهده سایت
             </Link>
             <span className="hidden text-muted-foreground sm:inline">
               {session.user.email}

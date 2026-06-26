@@ -4,33 +4,33 @@ import { FadeImage } from "@/components/fade-image";
 
 const features = [
   {
-    title: "Private routes shaped around you",
-    description: "Tailor-made planning",
+    title: "مسیرهای اختصاصی متناسب با شما",
+    description: "برنامه‌ریزی شخصی",
     image: "/images/Vietnam/photo-1528127269322-539801943592.jpg",
   },
   {
-    title: "Guides who know the right timing",
-    description: "Local insight",
+    title: "راهنماهایی که زمان درست را می‌شناسند",
+    description: "شناخت محلی",
     image: "/images/Vietnam/Ha_Long_Bay_1.jpg",
   },
   {
-    title: "Smooth transfers between regions",
-    description: "Travel logistics",
+    title: "جابجایی روان بین شهرها و مناطق",
+    description: "هماهنگی سفر",
     image: "/images/Vietnam/jb-3VK6Urf2vE8-unsplash.jpg",
   },
   {
-    title: "Food, markets, and everyday culture",
-    description: "Real Vietnam",
+    title: "غذا، بازارها و زندگی روزمره",
+    description: "ویتنام واقعی",
     image: "/images/Vietnam/photo-1559592413-7cec4d0cae2b.jpg",
   },
   {
-    title: "Nature days beyond the postcards",
-    description: "Outdoor escapes",
+    title: "طبیعت‌گردی فراتر از کارت‌پستال‌ها",
+    description: "فرار به طبیعت",
     image: "/images/Vietnam/te.jpg",
   },
   {
-    title: "Flexible support before you arrive",
-    description: "Trip care",
+    title: "پشتیبانی منعطف پیش از رسیدن شما",
+    description: "همراهی سفر",
     image: "/images/Vietnam/lanterns-hoi-an-danang-vietnam-travel-solo-main-image-hd-op.jpg",
   },
 ];
@@ -41,13 +41,13 @@ export function FeaturedProductsSection() {
       {/* Section Title */}
       <div className="px-6 py-20 text-center md:px-12 md:py-28 lg:px-20 lg:py-32 lg:pb-20">
         <h2 className="text-3xl font-medium tracking-tight text-foreground md:text-4xl lg:text-5xl">
-          Built around the way
+          سفر را بر اساس سبک
           <br />
-          you want to travel.
+          دلخواه شما می‌سازیم.
         </h2>
         <p className="mx-auto mt-6 max-w-md text-sm text-muted-foreground">
-          Practical planning, local detail, and enough flexibility for the best
-          parts of Vietnam to unfold naturally.
+          برنامه‌ریزی دقیق، جزئیات محلی و انعطاف کافی برای اینکه بهترین بخش‌های
+          ویتنام طبیعی و بی‌دردسر پیش برود.
         </p>
       </div>
 

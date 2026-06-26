@@ -31,7 +31,7 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
       router.push("/admin")
       router.refresh()
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong")
+      setError(err instanceof Error ? err.message : "مشکلی پیش آمد")
     } finally {
       setLoading(false)
     }
@@ -40,19 +40,19 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
   return (
     <div className="w-full max-w-sm">
       <h1 className="text-2xl font-medium tracking-tight text-foreground">
-        {isSignUp ? "Create admin account" : "Admin sign in"}
+        {isSignUp ? "ساخت حساب مدیر" : "ورود مدیر"}
       </h1>
       <p className="mt-2 text-sm text-muted-foreground">
         {isSignUp
-          ? "Set up an account to manage your tours."
-          : "Sign in to manage your Vietnam tours."}
+          ? "یک حساب برای مدیریت تورها بسازید."
+          : "برای مدیریت تورهای ویتنام وارد شوید."}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
         {isSignUp && (
           <div className="flex flex-col gap-2">
             <label htmlFor="name" className="text-sm text-foreground">
-              Name
+              نام
             </label>
             <input
               id="name"
@@ -66,7 +66,7 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
         )}
         <div className="flex flex-col gap-2">
           <label htmlFor="email" className="text-sm text-foreground">
-            Email
+            ایمیل
           </label>
           <input
             id="email"
@@ -79,7 +79,7 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="password" className="text-sm text-foreground">
-            Password
+            رمز عبور
           </label>
           <input
             id="password"
@@ -99,23 +99,23 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
           disabled={loading}
           className="mt-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:opacity-50"
         >
-          {loading ? "Please wait…" : isSignUp ? "Create account" : "Sign in"}
+          {loading ? "لطفا صبر کنید..." : isSignUp ? "ساخت حساب" : "ورود"}
         </button>
       </form>
 
       <p className="mt-6 text-sm text-muted-foreground">
         {isSignUp ? (
           <>
-            Already have an account?{" "}
+            قبلا حساب ساخته‌اید؟{" "}
             <Link href="/sign-in" className="text-foreground underline">
-              Sign in
+              وارد شوید
             </Link>
           </>
         ) : (
           <>
-            Need an account?{" "}
+            حساب ندارید؟{" "}
             <Link href="/sign-up" className="text-foreground underline">
-              Create one
+              بسازید
             </Link>
           </>
         )}

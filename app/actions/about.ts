@@ -11,7 +11,7 @@ import { redirect } from "next/navigation"
 
 async function requireAuth() {
   const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) throw new Error("Unauthorized")
+  if (!session?.user) throw new Error("دسترسی غیرمجاز")
   return session.user
 }
 

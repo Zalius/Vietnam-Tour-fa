@@ -14,7 +14,7 @@ export default async function SignInPage() {
         href="/"
         className="mb-10 text-lg font-medium tracking-tight text-foreground"
       >
-        Tour Vietnam
+        تور ویتنام
       </Link>
       <AuthForm mode="sign-in" />
     </main>

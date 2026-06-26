@@ -26,8 +26,8 @@ export function Header() {
     >
       <div className="flex items-center justify-between transition-all duration-300 px-2 pl-5 py-2">
         {/* Logo */}
-        <Link href="/" className={`text-lg font-medium tracking-tight transition-colors duration-300 ${isScrolled ? "text-foreground" : "text-white"}`}>
-          Tour Vietnam
+        <Link href="/" className={`text-lg font-medium transition-colors duration-300 ${isScrolled ? "text-foreground" : "text-white"}`}>
+          تور ویتنام
         </Link>
 
         {/* Desktop Navigation */}
@@ -36,25 +36,25 @@ export function Header() {
             href="/#tours"
             className={`text-sm transition-colors ${isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/70 hover:text-white"}`}
           >
-            Tours
+            تورها
           </Link>
           <Link
             href="/#technology"
             className={`text-sm transition-colors ${isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/70 hover:text-white"}`}
           >
-            Experience
+            تجربه سفر
           </Link>
           <Link
             href="/#gallery"
             className={`text-sm transition-colors ${isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/70 hover:text-white"}`}
           >
-            Gallery
+            گالری
           </Link>
           <Link
             href="/about"
             className={`text-sm transition-colors ${isScrolled ? "text-muted-foreground hover:text-foreground" : "text-white/70 hover:text-white"}`}
           >
-            About Us
+            درباره ما
           </Link>
         </nav>
 
@@ -64,7 +64,7 @@ export function Header() {
             href="/#tours"
             className={`px-4 py-2 text-sm font-medium transition-all rounded-full ${isScrolled ? "bg-foreground text-background hover:opacity-80" : "bg-white text-foreground hover:bg-white/90"}`}
           >
-            Explore Tours
+            مشاهده تورها
           </Link>
         </div>
 
@@ -73,7 +73,7 @@ export function Header() {
           type="button"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className={`transition-colors md:hidden ${isScrolled ? "text-foreground" : "text-white"}`}
-          aria-label="Toggle menu"
+          aria-label="باز و بسته کردن منو"
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -88,35 +88,35 @@ export function Header() {
               className="text-lg text-foreground"
               onClick={() => setIsMenuOpen(false)}
             >
-              Tours
+              تورها
             </Link>
             <Link
               href="/#technology"
               className="text-lg text-foreground"
               onClick={() => setIsMenuOpen(false)}
             >
-              Experience
+              تجربه سفر
             </Link>
             <Link
               href="/#gallery"
               className="text-lg text-foreground"
               onClick={() => setIsMenuOpen(false)}
             >
-              Gallery
+              گالری
             </Link>
             <Link
               href="/about"
               className="text-lg text-foreground"
               onClick={() => setIsMenuOpen(false)}
             >
-              About Us
+              درباره ما
             </Link>
             <Link
               href="/#tours"
               className="mt-4 bg-foreground px-5 py-3 text-center text-sm font-medium text-background rounded-full"
               onClick={() => setIsMenuOpen(false)}
             >
-              Explore Tours
+              مشاهده تورها
             </Link>
           </nav>
         </div>

@@ -5,7 +5,13 @@ import { ArrowLeft, Check, Clock, MapPin, Users, Mountain } from "lucide-react"
 import { Header } from "@/components/header"
 import { FooterSection } from "@/components/sections/footer-section"
 import { FadeImage } from "@/components/fade-image"
-import { getTourBySlug, getPublishedTours, formatPrice } from "@/lib/tours"
+import { TourGalleryLightbox } from "@/components/tour-gallery-lightbox"
+import {
+  getTourBySlug,
+  getPublishedTours,
+  formatDifficulty,
+  formatPrice,
+} from "@/lib/tours"
 
 export async function generateMetadata({
   params,
@@ -14,9 +20,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params
   const tour = await getTourBySlug(slug)
-  if (!tour) return { title: "Tour not found" }
+  if (!tour) return { title: "تور پیدا نشد" }
   return {
-    title: `${tour.title} | Tour Vietnam`,
+    title: `${tour.title} | تور ویتنام`,
     description: tour.summary,
   }
 }
@@ -37,17 +43,16 @@ export default async function TourPage({
   if (!tour || !tour.published) notFound()
 
   const stats = [
-    { icon: Clock, label: "Duration", value: `${tour.durationDays} days` },
-    { icon: Users, label: "Group size", value: `Up to ${tour.maxGroupSize}` },
-    { icon: Mountain, label: "Difficulty", value: tour.difficulty },
-    { icon: MapPin, label: "Region", value: tour.region },
+    { icon: Clock, label: "مدت سفر", value: `${tour.durationDays} روز` },
+    { icon: Users, label: "اندازه گروه", value: `تا ${tour.maxGroupSize} نفر` },
+    { icon: Mountain, label: "سطح سفر", value: formatDifficulty(tour.difficulty) },
+    { icon: MapPin, label: "منطقه", value: tour.region },
   ]
 
   return (
     <main className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero */}
       <section className="relative h-[70vh] min-h-[460px] w-full overflow-hidden">
         <FadeImage
           src={tour.mainImage || "/placeholder.svg"}
@@ -72,12 +77,11 @@ export default async function TourPage({
           href="/#tours"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          <ArrowLeft size={16} />
-          All tours
+          <ArrowLeft size={16} className="rotate-180" />
+          همه تورها
         </Link>
       </div>
 
-      {/* Stats bar */}
       <div className="grid grid-cols-2 gap-px border-y border-border bg-border md:grid-cols-4">
         {stats.map((stat) => (
           <div key={stat.label} className="bg-background px-6 py-6 md:px-8">
@@ -92,12 +96,10 @@ export default async function TourPage({
         ))}
       </div>
 
-      {/* Body */}
       <div className="grid grid-cols-1 gap-12 px-6 py-16 md:px-12 lg:grid-cols-3 lg:gap-16 lg:px-20">
-        {/* Main column */}
         <div className="lg:col-span-2">
           <h2 className="text-2xl font-medium tracking-tight text-foreground">
-            About this journey
+            درباره این سفر
           </h2>
           <p className="mt-4 whitespace-pre-line leading-relaxed text-muted-foreground">
             {tour.description || tour.summary}
@@ -106,7 +108,7 @@ export default async function TourPage({
           {tour.highlights.length > 0 && (
             <div className="mt-12">
               <h3 className="text-xl font-medium tracking-tight text-foreground">
-                Highlights
+                نکات برجسته
               </h3>
               <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {tour.highlights.map((item, i) => (
@@ -125,12 +127,12 @@ export default async function TourPage({
           {tour.itinerary.length > 0 && (
             <div className="mt-12">
               <h3 className="text-xl font-medium tracking-tight text-foreground">
-                Itinerary
+                برنامه سفر
               </h3>
-              <ol className="mt-6 border-l border-border">
+              <ol className="mt-6 border-r border-border">
                 {tour.itinerary.map((day) => (
-                  <li key={day.day} className="relative pb-8 pl-8 last:pb-0">
-                    <span className="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
+                  <li key={day.day} className="relative pr-8 pb-8 last:pb-0">
+                    <span className="absolute -right-3 flex h-6 w-6 items-center justify-center rounded-full bg-foreground text-xs font-medium text-background">
                       {day.day}
                     </span>
                     <h4 className="text-base font-medium text-foreground">
@@ -148,56 +150,41 @@ export default async function TourPage({
           {tour.gallery.length > 0 && (
             <div className="mt-12">
               <h3 className="text-xl font-medium tracking-tight text-foreground">
-                Gallery
+                گالری
               </h3>
-              <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3">
-                {tour.gallery.map((src, i) => (
-                  <div
-                    key={i}
-                    className="relative aspect-square overflow-hidden rounded-2xl bg-secondary"
-                  >
-                    <FadeImage
-                      src={src || "/placeholder.svg"}
-                      alt={`${tour.title} photo ${i + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
+              <TourGalleryLightbox images={tour.gallery} title={tour.title} />
             </div>
           )}
         </div>
 
-        {/* Booking sidebar */}
         <aside className="lg:col-span-1">
           <div className="sticky top-28 rounded-2xl border border-border p-6">
             <p className="text-xs uppercase tracking-widest text-muted-foreground">
-              From
+              شروع قیمت
             </p>
             <p className="mt-1 text-3xl font-medium text-foreground">
               {formatPrice(tour.price)}
               <span className="text-sm font-normal text-muted-foreground">
                 {" "}
-                / person
+                / نفر
               </span>
             </p>
 
             <dl className="mt-6 space-y-3 border-t border-border pt-6 text-sm">
               <div className="flex justify-between">
-                <dt className="text-muted-foreground">Starts</dt>
-                <dd className="text-foreground">{tour.startLocation || "—"}</dd>
+                <dt className="text-muted-foreground">شروع</dt>
+                <dd className="text-foreground">{tour.startLocation || "-"}</dd>
               </div>
               <div className="flex justify-between">
-                <dt className="text-muted-foreground">Ends</dt>
-                <dd className="text-foreground">{tour.endLocation || "—"}</dd>
+                <dt className="text-muted-foreground">پایان</dt>
+                <dd className="text-foreground">{tour.endLocation || "-"}</dd>
               </div>
             </dl>
 
             {tour.included.length > 0 && (
               <div className="mt-6 border-t border-border pt-6">
                 <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                  What&apos;s included
+                  شامل چه مواردی است
                 </p>
                 <ul className="mt-3 space-y-2">
                   {tour.included.map((item, i) => (
@@ -211,12 +198,12 @@ export default async function TourPage({
             )}
 
             <a
-              href={`mailto:hello@evasion-vietnam.com?subject=${encodeURIComponent(
-                `Booking enquiry: ${tour.title}`,
+              href={`mailto:hello@tour-vietnam.com?subject=${encodeURIComponent(
+                `درخواست رزرو: ${tour.title}`,
               )}`}
               className="mt-6 block w-full rounded-full bg-foreground px-5 py-3 text-center text-sm font-medium text-background transition-opacity hover:opacity-80"
             >
-              Enquire to book
+              درخواست رزرو
             </a>
           </div>
         </aside>

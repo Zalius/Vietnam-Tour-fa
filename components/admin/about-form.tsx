@@ -16,7 +16,7 @@ function SubmitButton() {
       disabled={pending}
       className="rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:opacity-50"
     >
-      {pending ? "Saving..." : "Save About page"}
+      {pending ? "در حال ذخیره..." : "ذخیره صفحه درباره ما"}
     </button>
   )
 }
@@ -28,7 +28,7 @@ function FileInput({ id, name }: { id: string; name: string }) {
       name={name}
       type="file"
       accept="image/*"
-      className="text-sm text-muted-foreground file:mr-4 file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-medium file:text-secondary-foreground hover:file:bg-secondary/80"
+      className="text-sm text-muted-foreground file:ml-4 file:rounded-full file:border-0 file:bg-secondary file:px-4 file:py-2 file:text-sm file:font-medium file:text-secondary-foreground hover:file:bg-secondary/80"
     />
   )
 }
@@ -49,7 +49,7 @@ export function AboutForm({
       <fieldset className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="heroEyebrow" className={labelClass}>
-            Hero eyebrow
+            برچسب بالای هیرو
           </label>
           <input
             id="heroEyebrow"
@@ -60,7 +60,7 @@ export function AboutForm({
         </div>
         <div className="flex flex-col gap-2 md:col-span-2">
           <label htmlFor="heroTitle" className={labelClass}>
-            Hero title
+            عنوان هیرو
           </label>
           <textarea
             id="heroTitle"
@@ -72,19 +72,20 @@ export function AboutForm({
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="heroImageFile" className={labelClass}>
-            Hero image upload
+            آپلود تصویر هیرو
           </label>
           <FileInput id="heroImageFile" name="heroImageFile" />
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="heroImage" className={labelClass}>
-            Hero image URL
+            URL تصویر هیرو
           </label>
           <input
             id="heroImage"
             name="heroImage"
             defaultValue={page.heroImage}
             className={inputClass}
+            dir="ltr"
           />
         </div>
       </fieldset>
@@ -92,7 +93,7 @@ export function AboutForm({
       <fieldset className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="introEyebrow" className={labelClass}>
-            Intro eyebrow
+            برچسب مقدمه
           </label>
           <input
             id="introEyebrow"
@@ -103,7 +104,7 @@ export function AboutForm({
         </div>
         <div className="flex flex-col gap-2 md:col-span-2">
           <label htmlFor="introTitle" className={labelClass}>
-            Intro title
+            عنوان مقدمه
           </label>
           <textarea
             id="introTitle"
@@ -115,7 +116,10 @@ export function AboutForm({
         </div>
         <div className="flex flex-col gap-2 md:col-span-2">
           <label htmlFor="introBody" className={labelClass}>
-            Intro paragraphs <span className="font-normal text-muted-foreground">(one per line)</span>
+            پاراگراف‌های مقدمه{" "}
+            <span className="font-normal text-muted-foreground">
+              (هر پاراگراف در یک خط)
+            </span>
           </label>
           <textarea
             id="introBody"
@@ -129,7 +133,10 @@ export function AboutForm({
 
       <div className="flex flex-col gap-2">
         <label htmlFor="values" className={labelClass}>
-          Values <span className="font-normal text-muted-foreground">(Title :: Body, one per line)</span>
+          ارزش‌ها{" "}
+          <span className="font-normal text-muted-foreground">
+            (عنوان :: متن، هر مورد در یک خط)
+          </span>
         </label>
         <textarea
           id="values"
@@ -143,7 +150,7 @@ export function AboutForm({
       <fieldset className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div className="flex flex-col gap-2">
           <label htmlFor="featureEyebrow" className={labelClass}>
-            Feature eyebrow
+            برچسب بخش ویژه
           </label>
           <input
             id="featureEyebrow"
@@ -154,7 +161,7 @@ export function AboutForm({
         </div>
         <div className="flex flex-col gap-2 md:col-span-2">
           <label htmlFor="featureTitle" className={labelClass}>
-            Feature title
+            عنوان بخش ویژه
           </label>
           <textarea
             id="featureTitle"
@@ -166,7 +173,7 @@ export function AboutForm({
         </div>
         <div className="flex flex-col gap-2 md:col-span-2">
           <label htmlFor="featureBody" className={labelClass}>
-            Feature body
+            متن بخش ویژه
           </label>
           <textarea
             id="featureBody"
@@ -178,19 +185,20 @@ export function AboutForm({
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="featureImageFile" className={labelClass}>
-            Feature image upload
+            آپلود تصویر بخش ویژه
           </label>
           <FileInput id="featureImageFile" name="featureImageFile" />
         </div>
         <div className="flex flex-col gap-2">
           <label htmlFor="featureImage" className={labelClass}>
-            Feature image URL
+            URL تصویر بخش ویژه
           </label>
           <input
             id="featureImage"
             name="featureImage"
             defaultValue={page.featureImage}
             className={inputClass}
+            dir="ltr"
           />
         </div>
       </fieldset>
@@ -201,7 +209,7 @@ export function AboutForm({
           href="/admin"
           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
-          Cancel
+          انصراف
         </Link>
       </div>
     </form>

@@ -29,10 +29,10 @@ export default async function EditTourPage({
             className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft size={16} />
-            Back to tours
+            بازگشت به تورها
           </Link>
           <h1 className="mt-4 text-2xl font-medium tracking-tight text-foreground">
-            Edit tour
+            ویرایش تور
           </h1>
         </div>
         <Link
@@ -41,7 +41,7 @@ export default async function EditTourPage({
           className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
         >
           <ExternalLink size={16} />
-          View in site
+          مشاهده در سایت
         </Link>
       </div>
       <div className="mb-8" />

@@ -10,17 +10,17 @@ export async function ToursSection() {
       {/* Section Title */}
       <div className="px-6 py-20 md:px-12 lg:px-20 md:py-10">
         <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">
-          Our Journeys
+          سفرهای ما
         </p>
         <h2 className="text-3xl font-medium tracking-tight text-foreground md:text-4xl">
-          Tours Across Vietnam
+          تورهای ویتنام
         </h2>
       </div>
 
       {tours.length === 0 ? (
         <div className="px-6 pb-24 md:px-12 lg:px-20">
           <p className="text-muted-foreground">
-            No tours published yet. Check back soon.
+            هنوز توری منتشر نشده است. به‌زودی دوباره سر بزنید.
           </p>
         </div>
       ) : (
@@ -43,7 +43,7 @@ export async function ToursSection() {
                 </div>
                 <div className="py-6">
                   <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">
-                    {tour.region} &middot; {tour.durationDays} days
+                    {tour.region} &middot; {tour.durationDays} روز
                   </p>
                   <div className="flex items-start justify-between gap-4">
                     <h3 className="flex-1 text-lg font-medium leading-snug text-foreground">
@@ -72,7 +72,7 @@ export async function ToursSection() {
                 </div>
                 <div className="py-6">
                   <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">
-                    {tour.region} &middot; {tour.durationDays} days
+                    {tour.region} &middot; {tour.durationDays} روز
                   </p>
                   <div className="flex items-start justify-between gap-4">
                     <h3 className="flex-1 text-lg font-medium leading-snug text-foreground">
