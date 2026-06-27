@@ -1,20 +1,31 @@
 import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 import { FadeImage } from "@/components/fade-image"
 import { getPublishedTours, formatPrice } from "@/lib/tours"
 
 export async function ToursSection() {
-  const tours = await getPublishedTours()
+  const tours = (await getPublishedTours()).slice(0, 6)
 
   return (
     <section id="tours" className="bg-background">
-      {/* Section Title */}
       <div className="px-6 py-20 md:px-12 lg:px-20 md:py-10">
-        <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">
-          سفرهای ما
-        </p>
-        <h2 className="text-3xl font-medium tracking-tight text-foreground md:text-4xl">
-          تورهای ویتنام
-        </h2>
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="mb-3 text-xs uppercase tracking-widest text-muted-foreground">
+              سفرهای ما
+            </p>
+            <h2 className="text-3xl font-medium tracking-tight text-foreground md:text-4xl">
+              تورهای ویتنام
+            </h2>
+          </div>
+          <Link
+            href="/tours"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            مشاهده همه تورها
+            <ArrowLeft size={16} />
+          </Link>
+        </div>
       </div>
 
       {tours.length === 0 ? (
@@ -25,7 +36,6 @@ export async function ToursSection() {
         </div>
       ) : (
         <div className="pb-24">
-          {/* Mobile: Horizontal Carousel */}
           <div className="flex gap-6 overflow-x-auto px-6 pb-4 md:hidden snap-x snap-mandatory scrollbar-hide">
             {tours.map((tour) => (
               <Link
@@ -58,7 +68,6 @@ export async function ToursSection() {
             ))}
           </div>
 
-          {/* Desktop: Grid */}
           <div className="hidden md:grid md:grid-cols-3 gap-8 md:px-12 lg:px-20">
             {tours.map((tour) => (
               <Link key={tour.id} href={`/tours/${tour.slug}`} className="group">
