@@ -103,7 +103,7 @@ export function HeroSection() {
                 opacity: sideOpacity,
               }}
             >
-              {sideImages.filter(img => img.position === "left").map((img, idx) => (
+              {sideImages.filter((img) => img.position === "left").map((img, idx) => (
                 <div
                   key={idx}
                   className="relative overflow-hidden will-change-transform"
@@ -144,20 +144,11 @@ export function HeroSection() {
                 className="absolute inset-0 flex items-end overflow-hidden"
                 style={{ opacity: textOpacity }}
               >
-                <h1 className="w-full px-4 text-right text-[14vw] font-medium leading-[0.86] text-white md:text-[13vw]" dir="rtl">
-                  {word.split("").map((letter, index) => (
-                    <span
-                      key={index}
-                      className="inline-block animate-[slideUp_0.8s_ease-out_forwards] opacity-0"
-                      style={{
-                        animationDelay: `${index * 0.08}s`,
-                        transition: "all 1.5s",
-                        transitionTimingFunction: "cubic-bezier(0.86, 0, 0.07, 1)",
-                      }}
-                    >
-                      {letter}
-                    </span>
-                  ))}
+                <h1
+                  className="w-full animate-[slideUp_0.8s_ease-out_forwards] px-4 text-right text-[14vw] font-medium leading-[0.86] text-white opacity-0 md:text-[13vw]"
+                  dir="rtl"
+                >
+                  {word}
                 </h1>
               </div>
             </div>
@@ -171,7 +162,7 @@ export function HeroSection() {
                 opacity: sideOpacity,
               }}
             >
-              {sideImages.filter(img => img.position === "right").map((img, idx) => (
+              {sideImages.filter((img) => img.position === "right").map((img, idx) => (
                 <div
                   key={idx}
                   className="relative overflow-hidden will-change-transform"

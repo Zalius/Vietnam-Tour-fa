@@ -103,23 +103,14 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" }) {
         </button>
       </form>
 
-      <p className="mt-6 text-sm text-muted-foreground">
-        {isSignUp ? (
-          <>
-            قبلا حساب ساخته‌اید؟{" "}
-            <Link href="/sign-in" className="text-foreground underline">
-              وارد شوید
-            </Link>
-          </>
-        ) : (
-          <>
-            حساب ندارید؟{" "}
-            <Link href="/sign-up" className="text-foreground underline">
-              بسازید
-            </Link>
-          </>
-        )}
-      </p>
+      {isSignUp && (
+        <p className="mt-6 text-sm text-muted-foreground">
+          قبلا حساب ساخته‌اید؟{" "}
+          <Link href="/sign-in" className="text-foreground underline">
+            وارد شوید
+          </Link>
+        </p>
+      )}
     </div>
   )
 }

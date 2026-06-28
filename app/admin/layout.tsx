@@ -2,7 +2,6 @@ import { redirect } from "next/navigation"
 import { headers } from "next/headers"
 import Link from "next/link"
 import { auth } from "@/lib/auth"
-import { SignOutButton } from "@/components/admin/sign-out-button"
 
 export default async function AdminLayout({
   children,
@@ -44,7 +43,6 @@ export default async function AdminLayout({
             <span className="hidden text-muted-foreground sm:inline">
               {session.user.email}
             </span>
-            <SignOutButton />
           </div>
         </div>
       </header>
