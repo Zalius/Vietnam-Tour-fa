@@ -34,6 +34,12 @@ export default async function AdminLayout({
               درباره
             </Link>
             <Link
+              href="/admin/content"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              محتوای سایت
+            </Link>
+            <Link
               href="/"
               target="_blank"
               className="text-muted-foreground transition-colors hover:text-foreground"

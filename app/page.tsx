@@ -8,13 +8,16 @@ import { ToursSection } from "@/components/sections/tours-section";
 import { EditorialSection } from "@/components/sections/editorial-section";
 import { TestimonialsSection } from "@/components/sections/testimonials-section";
 import { FooterSection } from "@/components/sections/footer-section";
+import { getSiteContent } from "@/lib/site-content";
 
-export default function Home() {
+export default async function Home() {
+  const content = await getSiteContent()
+
   return (
     <main className="min-h-screen bg-background">
-      <Header />
-      <HeroSection />
-      <PhilosophySection />
+      <Header links={content.headerLinks} />
+      <HeroSection content={content.hero} />
+      <PhilosophySection content={content.philosophy} />
       <FeaturedProductsSection />
       <TechnologySection />
       <GallerySection />

@@ -1,16 +1,17 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
-import { ArrowLeft, Check, Clock, MapPin, Users, Mountain } from "lucide-react"
-import { Header } from "@/components/header"
-import { FooterSection } from "@/components/sections/footer-section"
+import { ArrowLeft, Check, Clock, MapPin, Mountain, Users } from "lucide-react"
+import { BookingRequestDialog } from "@/components/booking-request-dialog"
 import { FadeImage } from "@/components/fade-image"
+import { FooterSection } from "@/components/sections/footer-section"
+import { Header } from "@/components/header"
 import { TourGalleryLightbox } from "@/components/tour-gallery-lightbox"
 import {
-  getTourBySlug,
-  getPublishedTours,
   formatDifficulty,
   formatPrice,
+  getPublishedTours,
+  getTourBySlug,
 } from "@/lib/tours"
 
 export async function generateMetadata({
@@ -42,6 +43,7 @@ export default async function TourPage({
 
   if (!tour || !tour.published) notFound()
 
+  const tourCode = `VT-${String(tour.id).padStart(4, "0")}`
   const stats = [
     { icon: Clock, label: "مدت سفر", value: `${tour.durationDays} روز` },
     { icon: Users, label: "اندازه گروه", value: `تا ${tour.maxGroupSize} نفر` },
@@ -74,7 +76,7 @@ export default async function TourPage({
 
       <div className="px-6 py-8 md:px-12 lg:px-20">
         <Link
-          href="/#tours"
+          href="/tours"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft size={16} className="rotate-180" />
@@ -113,10 +115,7 @@ export default async function TourPage({
               <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {tour.highlights.map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <Check
-                      size={18}
-                      className="mt-0.5 shrink-0 text-foreground"
-                    />
+                    <Check size={18} className="mt-0.5 shrink-0 text-foreground" />
                     <span className="text-sm text-muted-foreground">{item}</span>
                   </li>
                 ))}
@@ -179,6 +178,10 @@ export default async function TourPage({
                 <dt className="text-muted-foreground">پایان</dt>
                 <dd className="text-foreground">{tour.endLocation || "-"}</dd>
               </div>
+              <div className="flex justify-between">
+                <dt className="text-muted-foreground">کد تور</dt>
+                <dd className="font-mono text-foreground" dir="ltr">{tourCode}</dd>
+              </div>
             </dl>
 
             {tour.included.length > 0 && (
@@ -197,14 +200,7 @@ export default async function TourPage({
               </div>
             )}
 
-            <a
-              href={`mailto:hello@tour-vietnam.com?subject=${encodeURIComponent(
-                `درخواست رزرو: ${tour.title}`,
-              )}`}
-              className="mt-6 block w-full rounded-full bg-foreground px-5 py-3 text-center text-sm font-medium text-background transition-opacity hover:opacity-80"
-            >
-              درخواست رزرو
-            </a>
+            <BookingRequestDialog tourCode={tourCode} tourTitle={tour.title} />
           </div>
         </aside>
       </div>

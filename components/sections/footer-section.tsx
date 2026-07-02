@@ -4,22 +4,22 @@ import Link from "next/link"
 
 const footerLinks = {
   explore: [
-    { label: "همه تورها", href: "/#tours" },
+    { label: "همه تورها", href: "/tours" },
     { label: "تجربه سفر", href: "/#technology" },
     { label: "گالری", href: "/#gallery" },
     { label: "درباره ما", href: "/about" },
   ],
   about: [
     { label: "داستان ما", href: "/about" },
-    { label: "راهنماهای محلی", href: "/about" },
+    { label: "بازرگانی", href: "/commerce" },
     { label: "سفر مسئولانه", href: "/about" },
-    { label: "تماس", href: "#" },
+    { label: "تماس", href: "/booking-terms" },
   ],
   service: [
-    { label: "پرسش‌های رایج", href: "#" },
-    { label: "شرایط رزرو", href: "#" },
-    { label: "لغو سفر", href: "#" },
-    { label: "بیمه سفر", href: "#" },
+    { label: "پرسش‌های رایج", href: "/faq" },
+    { label: "شرایط رزرو", href: "/booking-terms" },
+    { label: "لغو سفر", href: "/cancellation" },
+    { label: "بیمه سفر", href: "/travel-insurance" },
   ],
 }
 
@@ -33,8 +33,7 @@ export function FooterSection() {
               تور ویتنام
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              سفرهای کوچک و اختصاصی در ویتنام؛ از صخره‌های آهکی خلیج ها لونگ
-              تا شالیزارهای ساپا، همراه با راهنماهای محلی.
+              سفرهای کوچک و اختصاصی در ویتنام؛ از صخره‌های آهکی خلیج ها لونگ تا شالیزارهای ساپا، همراه با راهنماهای محلی.
             </p>
           </div>
 
@@ -43,10 +42,7 @@ export function FooterSection() {
             <ul className="space-y-3">
               {footerLinks.explore.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
+                  <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
                     {link.label}
                   </Link>
                 </li>
@@ -59,10 +55,7 @@ export function FooterSection() {
             <ul className="space-y-3">
               {footerLinks.about.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
+                  <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
                     {link.label}
                   </Link>
                 </li>
@@ -75,10 +68,7 @@ export function FooterSection() {
             <ul className="space-y-3">
               {footerLinks.service.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                  >
+                  <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
                     {link.label}
                   </Link>
                 </li>
@@ -95,23 +85,14 @@ export function FooterSection() {
           </p>
 
           <div className="flex items-center gap-4">
-            <Link
-              href="#"
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
+            <Link href="#" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
               Instagram
             </Link>
-            <Link
-              href="#"
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Twitter
+            <Link href="#" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
+              Telegram
             </Link>
-            <Link
-              href="#"
-              className="text-xs text-muted-foreground transition-colors hover:text-foreground"
-            >
-              YouTube
+            <Link href="#" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
+              WhatsApp
             </Link>
           </div>
         </div>

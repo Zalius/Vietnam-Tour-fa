@@ -25,6 +25,8 @@ const trustedOrigins = [
   "https://*.vercel.app",
 ].filter(Boolean) as string[]
 
+const isHttpsBaseUrl = baseURL.startsWith("https://")
+
 export const auth = betterAuth({
   baseURL,
   trustedOrigins,
@@ -37,8 +39,8 @@ export const auth = betterAuth({
     ? {
         advanced: {
           defaultCookieAttributes: {
-            sameSite: "none" as const,
-            secure: true,
+            sameSite: isHttpsBaseUrl ? ("none" as const) : ("lax" as const),
+            secure: isHttpsBaseUrl,
           },
         },
       }

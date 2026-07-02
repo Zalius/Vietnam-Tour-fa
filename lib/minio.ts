@@ -78,7 +78,11 @@ function publicTourImagesStatement(bucket: string): BucketPolicyStatement {
     Effect: "Allow",
     Principal: "*",
     Action: ["s3:GetObject"],
-    Resource: [`arn:aws:s3:::${bucket}/tours/*`],
+    Resource: [
+      `arn:aws:s3:::${bucket}/tours/*`,
+      `arn:aws:s3:::${bucket}/site/*`,
+      `arn:aws:s3:::${bucket}/pages/*`,
+    ],
   }
 }
 
@@ -123,13 +127,17 @@ async function ensureTourImagesArePublic(): Promise<void> {
   return tourImagesPublicPolicyPromise
 }
 
-export async function uploadImageToMinio(file: File): Promise<string | null> {
+export async function uploadImageToMinio(
+  file: File,
+  folder = "tours",
+): Promise<string | null> {
   if (!file.size) return null
   if (!file.type.startsWith("image/")) {
     throw new Error("Only image uploads are allowed")
   }
 
-  const objectName = `tours/${randomUUID()}-${safeFileName(file.name)}`
+  const safeFolder = folder.replace(/[^a-z0-9/_-]+/gi, "").replace(/^\/+|\/+$/g, "") || "tours"
+  const objectName = `${safeFolder}/${randomUUID()}-${safeFileName(file.name)}`
   const buffer = Buffer.from(await file.arrayBuffer())
 
   await ensureTourImagesArePublic()

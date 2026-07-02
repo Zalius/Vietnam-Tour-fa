@@ -69,7 +69,9 @@ async function buildTourData(formData: FormData) {
   )
   const galleryUploads = (
     await Promise.all(
-      parseUploadedFiles(formData.getAll("galleryFiles")).map(uploadImageToMinio),
+      parseUploadedFiles(formData.getAll("galleryFiles")).map((file) =>
+        uploadImageToMinio(file),
+      ),
     )
   ).filter((url): url is string => Boolean(url))
 
