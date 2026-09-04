@@ -5,6 +5,7 @@ import { updateTour } from "@/app/actions/tours"
 import { getTourById } from "@/lib/tours"
 import { TourForm } from "@/components/admin/tour-form"
 import { getTourUrl } from "@/lib/site-url"
+import { getAllHotels, getHotelIdsForTour } from "@/lib/hotels"
 
 export default async function EditTourPage({
   params,
@@ -18,6 +19,10 @@ export default async function EditTourPage({
   const tour = await getTourById(tourId)
   if (!tour) notFound()
 
+  const [hotels, selectedHotelIds] = await Promise.all([
+    getAllHotels(),
+    getHotelIdsForTour(tourId),
+  ])
   const updateAction = updateTour.bind(null, tourId)
 
   return (
@@ -45,7 +50,12 @@ export default async function EditTourPage({
         </Link>
       </div>
       <div className="mb-8" />
-      <TourForm action={updateAction} tour={tour} />
+      <TourForm
+        action={updateAction}
+        tour={tour}
+        hotels={hotels}
+        selectedHotelIds={selectedHotelIds}
+      />
     </div>
   )
 }

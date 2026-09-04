@@ -222,7 +222,7 @@ export function ToursFilteredList({ tours }: { tours: TourListItem[] }) {
         ))}
       </FilterGroup>
 
-      <FilterGroup title="سطح سفر">
+      <FilterGroup title="سختی سفر">
         {difficulties.map((difficulty) => (
           <CheckboxFilter
             key={difficulty}

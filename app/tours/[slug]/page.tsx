@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
-import { ArrowLeft, Check, Clock, MapPin, Mountain, Users } from "lucide-react"
+import { ArrowLeft, Building2, Check, Clock, MapPin, Mountain, Users } from "lucide-react"
 import { BookingRequestDialog } from "@/components/booking-request-dialog"
 import { FadeImage } from "@/components/fade-image"
 import { FooterSection } from "@/components/sections/footer-section"
@@ -13,6 +13,8 @@ import {
   getPublishedTours,
   getTourBySlug,
 } from "@/lib/tours"
+import { getHotelsForTour } from "@/lib/hotels"
+import { getContactSettings } from "@/lib/contact-settings"
 
 export async function generateMetadata({
   params,
@@ -43,6 +45,10 @@ export default async function TourPage({
 
   if (!tour || !tour.published) notFound()
 
+  const [hotels, contact] = await Promise.all([
+    getHotelsForTour(tour.id),
+    getContactSettings(),
+  ])
   const tourCode = `VT-${String(tour.id).padStart(4, "0")}`
   const stats = [
     { icon: Clock, label: "مدت سفر", value: `${tour.durationDays} روز` },
@@ -146,6 +152,56 @@ export default async function TourPage({
             </div>
           )}
 
+          {hotels.length > 0 && (
+            <div className="mt-12">
+              <h3 className="text-xl font-medium tracking-tight text-foreground">
+                هتل‌های پیشنهادی این تور
+              </h3>
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                {hotels.map((hotel) => (
+                  <Link
+                    key={hotel.id}
+                    href={`/hotels/${hotel.id}`}
+                    className="rounded-2xl border border-border p-5 transition-colors hover:bg-secondary/50"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary text-foreground">
+                        <Building2 size={18} />
+                      </div>
+                      <div>
+                        <h4 className="text-base font-medium text-foreground">
+                          {hotel.name}
+                        </h4>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {hotel.city} · {hotel.quality}
+                        </p>
+                      </div>
+                    </div>
+
+                    {hotel.description ? (
+                      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                        {hotel.description}
+                      </p>
+                    ) : null}
+
+                    {hotel.amenities.length > 0 ? (
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {hotel.amenities.slice(0, 5).map((amenity) => (
+                          <span
+                            key={amenity}
+                            className="rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground"
+                          >
+                            {amenity}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
           {tour.gallery.length > 0 && (
             <div className="mt-12">
               <h3 className="text-xl font-medium tracking-tight text-foreground">
@@ -200,7 +256,11 @@ export default async function TourPage({
               </div>
             )}
 
-            <BookingRequestDialog tourCode={tourCode} tourTitle={tour.title} />
+            <BookingRequestDialog
+              tourCode={tourCode}
+              tourTitle={tour.title}
+              contact={contact}
+            />
           </div>
         </aside>
       </div>

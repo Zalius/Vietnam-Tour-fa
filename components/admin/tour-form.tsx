@@ -1,19 +1,32 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
+import { useRef, useState } from "react"
+import type { FormEvent } from "react"
 import { useFormStatus } from "react-dom"
-import type { Tour } from "@/lib/db/schema"
+import type { Hotel, Tour } from "@/lib/db/schema"
 
-function SubmitButton({ label }: { label: string }) {
+const labelClass = "text-sm font-medium text-foreground"
+const inputClass =
+  "rounded-lg border border-border bg-input px-4 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
+
+function SubmitButton({
+  label,
+  uploading,
+}: {
+  label: string
+  uploading: boolean
+}) {
   const { pending } = useFormStatus()
+  const disabled = pending || uploading
+
   return (
     <button
       type="submit"
-      disabled={pending}
+      disabled={disabled}
       className="rounded-full bg-foreground px-6 py-2.5 text-sm font-medium text-background transition-opacity hover:opacity-80 disabled:opacity-50"
     >
-      {pending ? "در حال ذخیره..." : label}
+      {uploading ? "در حال آپلود تصاویر..." : pending ? "در حال ذخیره..." : label}
     </button>
   )
 }
@@ -39,78 +52,129 @@ function FileInput({
   )
 }
 
-const labelClass = "text-sm font-medium text-foreground"
-const inputClass =
-  "rounded-lg border border-border bg-input px-4 py-2.5 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-
 export function TourForm({
   action,
   tour,
+  hotels = [],
+  selectedHotelIds = [],
 }: {
   action: (formData: FormData) => Promise<void>
   tour?: Tour
+  hotels?: Hotel[]
+  selectedHotelIds?: number[]
 }) {
   const [title, setTitle] = useState(tour?.title ?? "")
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState("")
+  const readyToSubmitRef = useRef(false)
+  const selectedHotels = new Set(selectedHotelIds)
 
   const itineraryText = (tour?.itinerary ?? [])
-    .map((d) => `${d.title} :: ${d.description}`)
+    .map((day) => `${day.title} :: ${day.description}`)
     .join("\n")
 
+  async function uploadFiles(files: File[]): Promise<string[]> {
+    if (files.length === 0) return []
+
+    const formData = new FormData()
+    formData.set("folder", "tours")
+    files.forEach((file) => formData.append("files", file))
+
+    const response = await fetch("/api/admin/uploads", {
+      method: "POST",
+      body: formData,
+    })
+    const payload = await response.json().catch(() => ({}))
+
+    if (!response.ok) {
+      throw new Error(payload.error || "آپلود تصویر ناموفق بود")
+    }
+
+    return Array.isArray(payload.urls) ? payload.urls : []
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    if (readyToSubmitRef.current) {
+      readyToSubmitRef.current = false
+      return
+    }
+
+    const form = event.currentTarget
+    const mainImageFileInput = form.elements.namedItem("mainImageFile") as HTMLInputElement | null
+    const galleryFilesInput = form.elements.namedItem("galleryFiles") as HTMLInputElement | null
+    const mainImageInput = form.elements.namedItem("mainImage") as HTMLInputElement | null
+    const galleryTextarea = form.elements.namedItem("gallery") as HTMLTextAreaElement | null
+
+    const mainFiles = Array.from(mainImageFileInput?.files ?? [])
+    const galleryFiles = Array.from(galleryFilesInput?.files ?? [])
+
+    if (mainFiles.length === 0 && galleryFiles.length === 0) return
+
+    event.preventDefault()
+    setUploading(true)
+    setUploadError("")
+
+    try {
+      const [mainUrls, galleryUrls] = await Promise.all([
+        uploadFiles(mainFiles.slice(0, 1)),
+        uploadFiles(galleryFiles),
+      ])
+
+      if (mainUrls[0] && mainImageInput) {
+        mainImageInput.value = mainUrls[0]
+      }
+
+      if (galleryUrls.length > 0 && galleryTextarea) {
+        const existing = galleryTextarea.value.trim()
+        galleryTextarea.value = [existing, ...galleryUrls].filter(Boolean).join("\n")
+      }
+
+      if (mainImageFileInput) mainImageFileInput.value = ""
+      if (galleryFilesInput) galleryFilesInput.value = ""
+
+      readyToSubmitRef.current = true
+      form.requestSubmit()
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : "آپلود تصویر ناموفق بود")
+    } finally {
+      setUploading(false)
+    }
+  }
+
   return (
-    <form action={action} className="flex flex-col gap-8">
+    <form action={action} onSubmit={handleSubmit} className="flex flex-col gap-8">
       <fieldset className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div className="flex flex-col gap-2 md:col-span-2">
-          <label htmlFor="title" className={labelClass}>
-            عنوان تور
-          </label>
-          <input
-            id="title"
-            name="title"
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className={inputClass}
-            placeholder="کروز شبانه خلیج ها لونگ"
-          />
-        </div>
+        <TextInput
+          name="title"
+          label="عنوان تور"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+          required
+          className="md:col-span-2"
+          placeholder="کروز خلیج ها لونگ"
+        />
 
-        <div className="flex flex-col gap-2 md:col-span-2">
-          <label htmlFor="slug" className={labelClass}>
-            آدرس URL{" "}
-            <span className="font-normal text-muted-foreground">
-              (اختیاری، از عنوان ساخته می‌شود)
-            </span>
-          </label>
-          <input
-            id="slug"
-            name="slug"
-            defaultValue={tour?.slug ?? ""}
-            className={inputClass}
-            placeholder="ha-long-bay-cruise"
-            dir="ltr"
-          />
-        </div>
+        <TextInput
+          name="slug"
+          label="آدرس URL"
+          defaultValue={tour?.slug ?? ""}
+          className="md:col-span-2"
+          placeholder="ha-long-bay-cruise"
+          dir="ltr"
+          hint="اختیاری، اگر خالی باشد از عنوان ساخته می‌شود."
+        />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="region" className={labelClass}>
-            منطقه
-          </label>
-          <input
-            id="region"
-            name="region"
-            required
-            defaultValue={tour?.region ?? ""}
-            className={inputClass}
-            placeholder="شمال ویتنام"
-          />
-        </div>
+        <TextInput
+          name="region"
+          label="منطقه"
+          defaultValue={tour?.region ?? ""}
+          required
+          placeholder="شمال ویتنام"
+        />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="difficulty" className={labelClass}>
-            سطح سفر
-          </label>
+        <label className="flex flex-col gap-2">
+          <span className={labelClass}>سطح سفر</span>
           <select
-            id="difficulty"
             name="difficulty"
             defaultValue={tour?.difficulty ?? "متوسط"}
             className={inputClass}
@@ -120,197 +184,178 @@ export function TourForm({
             <option>چالش‌برانگیز</option>
             <option>سخت</option>
           </select>
-        </div>
+        </label>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="price" className={labelClass}>
-            قیمت (دلار برای هر نفر)
-          </label>
-          <input
-            id="price"
-            name="price"
-            type="number"
-            min={0}
-            defaultValue={tour?.price ?? 0}
-            className={inputClass}
-          />
-        </div>
+        <TextInput
+          name="price"
+          label="قیمت (دلار برای هر نفر)"
+          type="number"
+          min={0}
+          defaultValue={String(tour?.price ?? 0)}
+        />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="durationDays" className={labelClass}>
-            مدت سفر (روز)
-          </label>
-          <input
-            id="durationDays"
-            name="durationDays"
-            type="number"
-            min={1}
-            defaultValue={tour?.durationDays ?? 1}
-            className={inputClass}
-          />
-        </div>
+        <TextInput
+          name="durationDays"
+          label="مدت سفر (روز)"
+          type="number"
+          min={1}
+          defaultValue={String(tour?.durationDays ?? 1)}
+        />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="startLocation" className={labelClass}>
-            محل شروع
-          </label>
-          <input
-            id="startLocation"
-            name="startLocation"
-            defaultValue={tour?.startLocation ?? ""}
-            className={inputClass}
-            placeholder="هانوی"
-          />
-        </div>
+        <TextInput
+          name="startLocation"
+          label="محل شروع"
+          defaultValue={tour?.startLocation ?? ""}
+          placeholder="هانوی"
+        />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="endLocation" className={labelClass}>
-            محل پایان
-          </label>
-          <input
-            id="endLocation"
-            name="endLocation"
-            defaultValue={tour?.endLocation ?? ""}
-            className={inputClass}
-            placeholder="هانوی"
-          />
-        </div>
+        <TextInput
+          name="endLocation"
+          label="محل پایان"
+          defaultValue={tour?.endLocation ?? ""}
+          placeholder="هانوی"
+        />
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="maxGroupSize" className={labelClass}>
-            حداکثر اندازه گروه
-          </label>
-          <input
-            id="maxGroupSize"
-            name="maxGroupSize"
-            type="number"
-            min={1}
-            defaultValue={tour?.maxGroupSize ?? 12}
-            className={inputClass}
-          />
-        </div>
+        <TextInput
+          name="maxGroupSize"
+          label="حداکثر اندازه گروه"
+          type="number"
+          min={1}
+          defaultValue={String(tour?.maxGroupSize ?? 12)}
+        />
       </fieldset>
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="summary" className={labelClass}>
-          خلاصه کوتاه
-        </label>
-        <textarea
-          id="summary"
-          name="summary"
-          rows={2}
-          defaultValue={tour?.summary ?? ""}
-          className={inputClass}
-          placeholder="متن کوتاهی که روی کارت تور نمایش داده می‌شود."
-        />
-      </div>
+      <TextArea
+        name="summary"
+        label="خلاصه کوتاه"
+        rows={2}
+        defaultValue={tour?.summary ?? ""}
+        placeholder="متن کوتاهی که روی کارت تور نمایش داده می‌شود."
+      />
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="description" className={labelClass}>
-          توضیحات کامل
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          rows={5}
-          defaultValue={tour?.description ?? ""}
-          className={inputClass}
-        />
-      </div>
+      <TextArea
+        name="description"
+        label="توضیحات کامل"
+        rows={5}
+        defaultValue={tour?.description ?? ""}
+      />
 
       <div className="flex flex-col gap-2">
         <label htmlFor="mainImageFile" className={labelClass}>
           آپلود تصویر اصلی
         </label>
         <FileInput id="mainImageFile" name="mainImageFile" />
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          تصویر ابتدا جداگانه آپلود می‌شود و سپس آدرس آن در فرم ذخیره می‌شود.
+        </p>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="mainImage" className={labelClass}>
-          مسیر یا URL تصویر اصلی
-        </label>
-        <input
-          id="mainImage"
-          name="mainImage"
-          defaultValue={tour?.mainImage ?? ""}
-          className={inputClass}
-          placeholder="/images/example.jpg یا https://..."
-          dir="ltr"
-        />
-      </div>
+      <TextInput
+        name="mainImage"
+        label="مسیر یا URL تصویر اصلی"
+        defaultValue={tour?.mainImage ?? ""}
+        placeholder="/images/example.jpg یا https://..."
+        dir="ltr"
+      />
 
       <div className="flex flex-col gap-2">
         <label htmlFor="galleryFiles" className={labelClass}>
           افزودن تصاویر گالری
         </label>
         <FileInput id="galleryFiles" name="galleryFiles" multiple />
+        <p className="text-xs leading-relaxed text-muted-foreground">
+          تصاویر انتخاب‌شده به MinIO آپلود و به لیست گالری اضافه می‌شوند.
+        </p>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="gallery" className={labelClass}>
-          تصاویر گالری{" "}
-          <span className="font-normal text-muted-foreground">
-            (هر مسیر یا URL در یک خط)
-          </span>
-        </label>
-        <textarea
-          id="gallery"
-          name="gallery"
-          rows={3}
-          defaultValue={(tour?.gallery ?? []).join("\n")}
-          className={inputClass}
-          dir="ltr"
-        />
-      </div>
+      <TextArea
+        name="gallery"
+        label="تصاویر گالری"
+        rows={3}
+        defaultValue={(tour?.gallery ?? []).join("\n")}
+        dir="ltr"
+        hint="هر مسیر یا URL در یک خط"
+      />
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="highlights" className={labelClass}>
-          نکات برجسته{" "}
-          <span className="font-normal text-muted-foreground">
-            (هر مورد در یک خط)
-          </span>
-        </label>
-        <textarea
-          id="highlights"
-          name="highlights"
-          rows={4}
-          defaultValue={(tour?.highlights ?? []).join("\n")}
-          className={inputClass}
-        />
-      </div>
+      <TextArea
+        name="highlights"
+        label="نکات برجسته"
+        rows={4}
+        defaultValue={(tour?.highlights ?? []).join("\n")}
+        hint="هر مورد در یک خط"
+      />
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="included" className={labelClass}>
-          موارد شامل تور{" "}
-          <span className="font-normal text-muted-foreground">
-            (هر مورد در یک خط)
-          </span>
-        </label>
-        <textarea
-          id="included"
-          name="included"
-          rows={4}
-          defaultValue={(tour?.included ?? []).join("\n")}
-          className={inputClass}
-        />
-      </div>
+      <TextArea
+        name="included"
+        label="موارد شامل تور"
+        rows={4}
+        defaultValue={(tour?.included ?? []).join("\n")}
+        hint="هر مورد در یک خط"
+      />
 
-      <div className="flex flex-col gap-2">
-        <label htmlFor="itinerary" className={labelClass}>
-          برنامه سفر{" "}
-          <span className="font-normal text-muted-foreground">
-            (هر روز در یک خط، قالب: عنوان :: توضیح)
-          </span>
-        </label>
-        <textarea
-          id="itinerary"
-          name="itinerary"
-          rows={5}
-          defaultValue={itineraryText}
-          className={inputClass}
-          placeholder={"ورود و حرکت با کشتی :: انتقال به بندر و سوار شدن به کشتی.\nطلوع و بازگشت :: تای‌چی روی عرشه و سپس بازگشت."}
-        />
-      </div>
+      <section className="rounded-2xl border border-border p-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h2 className="text-xl font-medium text-foreground">
+              هتل‌های این تور
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              می‌توانید چند هتل را برای این تور انتخاب کنید. اگر هتل مورد نظر وجود ندارد، ابتدا آن را اضافه کنید.
+            </p>
+          </div>
+          <Link
+            href="/admin/hotels"
+            className="inline-flex items-center justify-center rounded-full border border-border px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+          >
+            افزودن هتل
+          </Link>
+        </div>
+
+        {hotels.length === 0 ? (
+          <p className="mt-5 rounded-xl bg-secondary p-4 text-sm text-muted-foreground">
+            هنوز هتلی ثبت نشده است.
+          </p>
+        ) : (
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            {hotels.map((hotel) => (
+              <label
+                key={hotel.id}
+                className="flex cursor-pointer gap-3 rounded-xl border border-border p-4 transition-colors hover:bg-secondary/60"
+              >
+                <input
+                  type="checkbox"
+                  name="hotelIds"
+                  value={hotel.id}
+                  defaultChecked={selectedHotels.has(hotel.id)}
+                  className="mt-1 h-4 w-4 shrink-0 accent-foreground"
+                />
+                <span>
+                  <span className="block text-sm font-medium text-foreground">
+                    {hotel.name}
+                  </span>
+                  <span className="mt-1 block text-xs text-muted-foreground">
+                    {hotel.city} · {hotel.quality}
+                  </span>
+                  {hotel.amenities.length > 0 ? (
+                    <span className="mt-2 block text-xs leading-relaxed text-muted-foreground">
+                      {hotel.amenities.slice(0, 3).join("، ")}
+                    </span>
+                  ) : null}
+                </span>
+              </label>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <TextArea
+        name="itinerary"
+        label="برنامه سفر"
+        rows={5}
+        defaultValue={itineraryText}
+        hint="هر روز در یک خط، قالب: عنوان :: توضیح"
+        placeholder={"ورود و حرکت با کشتی :: انتقال به بندر و سوار شدن به کشتی.\nطلوع و بازگشت :: تای‌چی روی عرشه و سپس بازگشت."}
+      />
 
       <div className="flex flex-wrap gap-6">
         <label className="flex items-center gap-2 text-sm text-foreground">
@@ -334,7 +379,10 @@ export function TourForm({
       </div>
 
       <div className="flex items-center gap-4 border-t border-border pt-6">
-        <SubmitButton label={tour ? "ذخیره تغییرات" : "ساخت تور"} />
+        <SubmitButton
+          label={tour ? "ذخیره تغییرات" : "ساخت تور"}
+          uploading={uploading}
+        />
         <Link
           href="/admin"
           className="text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -342,6 +390,78 @@ export function TourForm({
           انصراف
         </Link>
       </div>
+
+      {uploadError ? (
+        <p className="rounded-xl bg-red-500/10 px-4 py-3 text-sm text-red-600">
+          {uploadError}
+        </p>
+      ) : null}
     </form>
+  )
+}
+
+function TextInput({
+  name,
+  label,
+  hint,
+  className,
+  value,
+  onChange,
+  ...props
+}: {
+  name: string
+  label: string
+  hint?: string
+  className?: string
+  value?: string
+  onChange?: React.ChangeEventHandler<HTMLInputElement>
+} & React.InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <label className={`flex flex-col gap-2 ${className ?? ""}`}>
+      <span className={labelClass}>{label}</span>
+      {hint ? <span className="text-xs text-muted-foreground">{hint}</span> : null}
+      <input
+        id={name}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className={inputClass}
+        {...props}
+      />
+    </label>
+  )
+}
+
+function TextArea({
+  name,
+  label,
+  hint,
+  rows,
+  defaultValue,
+  dir,
+  placeholder,
+}: {
+  name: string
+  label: string
+  hint?: string
+  rows: number
+  defaultValue: string
+  dir?: "ltr" | "rtl"
+  placeholder?: string
+}) {
+  return (
+    <label className="flex flex-col gap-2">
+      <span className={labelClass}>{label}</span>
+      {hint ? <span className="text-xs text-muted-foreground">{hint}</span> : null}
+      <textarea
+        id={name}
+        name={name}
+        rows={rows}
+        defaultValue={defaultValue}
+        className={inputClass}
+        dir={dir}
+        placeholder={placeholder}
+      />
+    </label>
   )
 }

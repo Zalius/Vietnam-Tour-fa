@@ -1,12 +1,14 @@
 "use server"
 
+import { randomUUID } from "crypto"
+import { revalidatePath } from "next/cache"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
+import { eq } from "drizzle-orm"
 import { auth } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { tours, type ItineraryDay } from "@/lib/db/schema"
-import { eq } from "drizzle-orm"
-import { headers } from "next/headers"
-import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
+import { setTourHotels } from "@/lib/hotels"
 import { deleteMinioImage, uploadImageToMinio } from "@/lib/minio"
 
 async function requireAuth() {
@@ -19,8 +21,22 @@ function slugify(value: string): string {
   return value
     .toLowerCase()
     .trim()
-    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
+}
+
+function makeSlug(value: string, fallbackSlug?: string): string {
+  return (
+    slugify(value) ||
+    (fallbackSlug ? slugify(fallbackSlug) : "") ||
+    `tour-${randomUUID().slice(0, 8)}`
+  )
+}
+
+function tourPath(slug: string): string {
+  return `/tours/${encodeURIComponent(slug)}`
 }
 
 function parseList(value: FormDataEntryValue | null): string[] {
@@ -29,6 +45,13 @@ function parseList(value: FormDataEntryValue | null): string[] {
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean)
+}
+
+function parseHotelIds(formData: FormData): number[] {
+  return formData
+    .getAll("hotelIds")
+    .map((value) => Number.parseInt(String(value), 10))
+    .filter(Number.isFinite)
 }
 
 function parseUploadedFiles(value: FormDataEntryValue[]): File[] {
@@ -60,10 +83,10 @@ async function uploadImageToMinioIfPresent(
   return uploadImageToMinio(value)
 }
 
-async function buildTourData(formData: FormData) {
+async function buildTourData(formData: FormData, fallbackSlug?: string) {
   const title = String(formData.get("title") ?? "").trim()
   const customSlug = String(formData.get("slug") ?? "").trim()
-  const slug = slugify(customSlug || title)
+  const slug = makeSlug(customSlug || title, fallbackSlug)
   const mainImageUpload = await uploadImageToMinioIfPresent(
     formData.get("mainImageFile"),
   )
@@ -116,8 +139,12 @@ async function deleteRemovedMinioImages(
 export async function createTour(formData: FormData) {
   await requireAuth()
   const data = await buildTourData(formData)
-  if (!data.title || !data.slug) throw new Error("عنوان تور الزامی است")
-  await db.insert(tours).values(data)
+  if (!data.title) throw new Error("عنوان تور الزامی است")
+  const rows = await db.insert(tours).values(data).returning({ id: tours.id })
+  const createdTourId = rows[0]?.id
+  if (createdTourId) {
+    await setTourHotels(createdTourId, parseHotelIds(formData))
+  }
   revalidatePath("/admin")
   revalidatePath("/")
   redirect("/admin")
@@ -128,9 +155,10 @@ export async function updateTour(id: number, formData: FormData) {
   const previousTour = await db.query.tours.findFirst({
     where: eq(tours.id, id),
   })
-  const data = await buildTourData(formData)
-  if (!data.title || !data.slug) throw new Error("عنوان تور الزامی است")
+  const data = await buildTourData(formData, previousTour?.slug)
+  if (!data.title) throw new Error("عنوان تور الزامی است")
   await db.update(tours).set(data).where(eq(tours.id, id))
+  await setTourHotels(id, parseHotelIds(formData))
   if (previousTour) {
     await deleteRemovedMinioImages(
       [previousTour.mainImage, ...previousTour.gallery],
@@ -140,9 +168,9 @@ export async function updateTour(id: number, formData: FormData) {
   revalidatePath("/admin")
   revalidatePath("/")
   if (previousTour?.slug && previousTour.slug !== data.slug) {
-    revalidatePath(`/tours/${previousTour.slug}`)
+    revalidatePath(tourPath(previousTour.slug))
   }
-  revalidatePath(`/tours/${data.slug}`)
+  revalidatePath(tourPath(data.slug))
   redirect("/admin")
 }
 

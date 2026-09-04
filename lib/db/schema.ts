@@ -6,6 +6,7 @@ import {
   serial,
   integer,
   jsonb,
+  primaryKey,
 } from "drizzle-orm/pg-core"
 
 export const user = pgTable("user", {
@@ -124,6 +125,41 @@ export const aboutPage = pgTable("about_page", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 })
 
+export const hotels = pgTable("hotels", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  city: text("city").notNull(),
+  quality: text("quality").default("4 ستاره").notNull(),
+  address: text("address").default("").notNull(),
+  website: text("website").default("").notNull(),
+  phone: text("phone").default("").notNull(),
+  image: text("image").default("").notNull(),
+  gallery: jsonb("gallery").$type<string[]>().default([]).notNull(),
+  description: text("description").default("").notNull(),
+  amenities: jsonb("amenities").$type<string[]>().default([]).notNull(),
+  notes: text("notes").default("").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+})
+
+export const tourHotels = pgTable(
+  "tour_hotels",
+  {
+    tourId: integer("tour_id")
+      .notNull()
+      .references(() => tours.id, { onDelete: "cascade" }),
+    hotelId: integer("hotel_id")
+      .notNull()
+      .references(() => hotels.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.tourId, table.hotelId] }),
+  }),
+)
+
 export type Tour = typeof tours.$inferSelect
 export type NewTour = typeof tours.$inferInsert
 export type AboutPage = typeof aboutPage.$inferSelect
+export type Hotel = typeof hotels.$inferSelect
+export type NewHotel = typeof hotels.$inferInsert

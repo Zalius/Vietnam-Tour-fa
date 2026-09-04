@@ -3,23 +3,22 @@
 import { useEffect, useState } from "react"
 import type { ReactNode } from "react"
 import { Mail, MessageCircle, Phone, X } from "lucide-react"
+import type { ContactSettings } from "@/lib/contact-settings"
 
 export function BookingRequestDialog({
   tourCode,
   tourTitle,
+  contact,
 }: {
   tourCode: string
   tourTitle: string
+  contact: ContactSettings
 }) {
   const [open, setOpen] = useState(false)
-  const vietnamPhone =
-    process.env.NEXT_PUBLIC_VIETNAM_PHONE || "شماره ویتنام در تنظیمات ثبت نشده"
-  const iranPhone =
-    process.env.NEXT_PUBLIC_IRAN_PHONE || "شماره ایران در تنظیمات ثبت نشده"
-  const telegramId =
-    process.env.NEXT_PUBLIC_TELEGRAM_ID || "شناسه تلگرام در تنظیمات ثبت نشده"
-  const email =
-    process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@tourvietnam.ir"
+  const vietnamPhone = contact.vietnamPhone || "ثبت نشده"
+  const iranPhone = contact.iranPhone || "ثبت نشده"
+  const telegramId = contact.telegramId || "ثبت نشده"
+  const email = contact.contactEmail || "info@tourvietnam.ir"
 
   useEffect(() => {
     if (!open) return
@@ -124,7 +123,9 @@ function ContactRow({
       </div>
       <div>
         <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="mt-0.5 text-sm font-medium text-foreground">{value}</p>
+        <p className="mt-0.5 text-left text-sm font-medium text-foreground" dir="ltr">
+          {value}
+        </p>
       </div>
     </div>
   )

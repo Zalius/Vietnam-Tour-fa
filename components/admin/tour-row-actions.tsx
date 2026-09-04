@@ -1,33 +1,38 @@
 "use client"
 
-import { useTransition } from "react"
 import Link from "next/link"
+import { useTransition } from "react"
 import { deleteTour, togglePublished } from "@/app/actions/tours"
 
 export function TourRowActions({
   id,
   viewHref,
   published,
+  compact = false,
 }: {
   id: number
   viewHref: string
   published: boolean
+  compact?: boolean
 }) {
   const [isPending, startTransition] = useTransition()
 
+  const actionClass = compact
+    ? "inline-flex flex-1 items-center justify-center rounded-full border border-border px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+    : "text-muted-foreground transition-colors hover:text-foreground"
+
   return (
-    <div className="flex items-center gap-3 text-sm">
-      <Link
-        href={viewHref}
-        target="_blank"
-        className="text-muted-foreground transition-colors hover:text-foreground"
-      >
+    <div
+      className={
+        compact
+          ? "grid grid-cols-2 gap-2 text-sm"
+          : "flex items-center gap-3 text-sm"
+      }
+    >
+      <Link href={viewHref} target="_blank" className={actionClass}>
         مشاهده
       </Link>
-      <Link
-        href={`/admin/${id}`}
-        className="text-muted-foreground transition-colors hover:text-foreground"
-      >
+      <Link href={`/admin/${id}`} className={actionClass}>
         ویرایش
       </Link>
       <button
@@ -38,7 +43,7 @@ export function TourRowActions({
             togglePublished(id, !published)
           })
         }
-        className="text-muted-foreground transition-colors hover:text-foreground disabled:opacity-50"
+        className={`${actionClass} disabled:opacity-50`}
       >
         {published ? "لغو انتشار" : "انتشار"}
       </button>
@@ -52,7 +57,11 @@ export function TourRowActions({
             })
           }
         }}
-        className="text-destructive transition-opacity hover:opacity-80 disabled:opacity-50"
+        className={
+          compact
+            ? "inline-flex flex-1 items-center justify-center rounded-full border border-destructive/30 px-3 py-2 text-xs font-medium text-destructive transition-colors hover:bg-destructive/10 disabled:opacity-50"
+            : "text-destructive transition-opacity hover:opacity-80 disabled:opacity-50"
+        }
       >
         حذف
       </button>

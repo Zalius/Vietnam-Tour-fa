@@ -55,7 +55,7 @@ export function HeroSection({
             style={{
               gap: `${gap}px`,
               padding: `${imageProgress * (isMobile ? 10 : 16)}px`,
-              paddingBottom: `${isMobile ? 40 + imageProgress * 24 : 60 + imageProgress * 40}px`,
+              paddingBottom: `${isMobile ? 72 + imageProgress * 42 : 92 + imageProgress * 64}px`,
             }}
           >
             <HeroSideColumn
@@ -118,7 +118,7 @@ export function HeroSection({
 
       <div className="h-[200vh]" />
 
-      <div className="px-6 pt-32 pb-28 md:pt-48 md:px-12 md:pb-36 lg:px-20 lg:pt-56 lg:pb-44" dir="rtl">
+      <div className="px-6 pt-44 pb-28 md:px-12 md:pt-60 md:pb-36 lg:px-20 lg:pt-72 lg:pb-44" dir="rtl">
         <p className="mx-auto max-w-2xl text-center text-2xl leading-relaxed text-muted-foreground md:text-3xl lg:text-[2.5rem] lg:leading-snug">
           {content.tagline.split("\n").map((line) => (
             <span key={line} className="block">

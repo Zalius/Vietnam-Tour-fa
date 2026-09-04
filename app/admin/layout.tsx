@@ -28,6 +28,18 @@ export default async function AdminLayout({
           </div>
           <div className="flex items-center gap-4 text-sm">
             <Link
+              href="/admin/contact"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              تماس
+            </Link>
+            <Link
+              href="/admin/hotels"
+              className="text-muted-foreground transition-colors hover:text-foreground"
+            >
+              هتل‌ها
+            </Link>
+            <Link
               href="/admin/about"
               className="text-muted-foreground transition-colors hover:text-foreground"
             >

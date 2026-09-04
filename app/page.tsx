@@ -5,6 +5,7 @@ import { FeaturedProductsSection } from "@/components/sections/featured-products
 import { TechnologySection } from "@/components/sections/technology-section";
 import { GallerySection } from "@/components/sections/gallery-section";
 import { ToursSection } from "@/components/sections/tours-section";
+import { HotelsSection } from "@/components/sections/hotels-section";
 import { EditorialSection } from "@/components/sections/editorial-section";
 import { TestimonialsSection } from "@/components/sections/testimonials-section";
 import { FooterSection } from "@/components/sections/footer-section";
@@ -22,6 +23,7 @@ export default async function Home() {
       <TechnologySection />
       <GallerySection />
       <ToursSection />
+      <HotelsSection />
       <EditorialSection />
       <TestimonialsSection />
       <FooterSection />

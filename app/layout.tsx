@@ -17,21 +17,9 @@ export const metadata: Metadata = {
     "تورهای کوچک و اختصاصی در ویتنام؛ از کروز خلیج ها لونگ تا ساپا، هوی آن و دلتای مکونگ همراه با راهنماهای محلی.",
   generator: "v0.app",
   icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
+    icon: "/images/logo.png",
+    shortcut: "/images/logo.png",
+    apple: "/images/logo.png",
   },
 }
 

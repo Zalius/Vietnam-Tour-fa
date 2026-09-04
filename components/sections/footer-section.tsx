@@ -1,10 +1,12 @@
-"use client"
+"use client";
 
-import Link from "next/link"
+import Link from "next/link";
+import { Github } from "lucide-react";
 
 const footerLinks = {
   explore: [
     { label: "همه تورها", href: "/tours" },
+    { label: "هتل‌ها", href: "/hotels" },
     { label: "تجربه سفر", href: "/#technology" },
     { label: "گالری", href: "/#gallery" },
     { label: "درباره ما", href: "/about" },
@@ -21,7 +23,7 @@ const footerLinks = {
     { label: "لغو سفر", href: "/cancellation" },
     { label: "بیمه سفر", href: "/travel-insurance" },
   ],
-}
+};
 
 export function FooterSection() {
   return (
@@ -37,44 +39,9 @@ export function FooterSection() {
             </p>
           </div>
 
-          <div>
-            <h4 className="mb-4 text-sm font-medium text-foreground">گشت‌وگذار</h4>
-            <ul className="space-y-3">
-              {footerLinks.explore.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-4 text-sm font-medium text-foreground">درباره</h4>
-            <ul className="space-y-3">
-              {footerLinks.about.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-4 text-sm font-medium text-foreground">خدمات</h4>
-            <ul className="space-y-3">
-              {footerLinks.service.map((link) => (
-                <li key={link.label}>
-                  <Link href={link.href} className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FooterColumn title="گشت‌وگذار" links={footerLinks.explore} />
+          <FooterColumn title="درباره" links={footerLinks.about} />
+          <FooterColumn title="خدمات" links={footerLinks.service} />
         </div>
       </div>
 
@@ -84,7 +51,7 @@ export function FooterSection() {
             ۲۰۲۶ تور ویتنام. همه حقوق محفوظ است.
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="#" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
               Instagram
             </Link>
@@ -94,9 +61,44 @@ export function FooterSection() {
             <Link href="#" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
               WhatsApp
             </Link>
+            <Link
+              href="https://github.com/zalius"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Github size={14} aria-hidden="true" />
+              <span>Developed by Zalius</span>
+            </Link>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
+}
+
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  return (
+    <div>
+      <h4 className="mb-4 text-sm font-medium text-foreground">{title}</h4>
+      <ul className="space-y-3">
+        {links.map((link) => (
+          <li key={link.label}>
+            <Link
+              href={link.href}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

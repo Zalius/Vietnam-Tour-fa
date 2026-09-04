@@ -82,6 +82,7 @@ function publicTourImagesStatement(bucket: string): BucketPolicyStatement {
       `arn:aws:s3:::${bucket}/tours/*`,
       `arn:aws:s3:::${bucket}/site/*`,
       `arn:aws:s3:::${bucket}/pages/*`,
+      `arn:aws:s3:::${bucket}/hotels/*`,
     ],
   }
 }
@@ -106,9 +107,18 @@ async function ensureTourImagesArePublic(): Promise<void> {
     const policy = await getBucketPolicy(bucket)
     const statement = publicTourImagesStatement(bucket)
     const statements = Array.isArray(policy.Statement) ? policy.Statement : []
-    const hasPublicTourRead = statements.some(
-      (item) => item.Sid === statement.Sid,
-    )
+    const existingStatement = statements.find((item) => item.Sid === statement.Sid)
+    const expectedResources = Array.isArray(statement.Resource)
+      ? statement.Resource
+      : [statement.Resource]
+    const existingResources = existingStatement
+      ? Array.isArray(existingStatement.Resource)
+        ? existingStatement.Resource
+        : [existingStatement.Resource]
+      : []
+    const hasPublicTourRead =
+      existingStatement &&
+      expectedResources.every((resource) => existingResources.includes(resource))
 
     if (hasPublicTourRead) return
 
